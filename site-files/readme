@@ -1,0 +1,5 @@
+##Site Files
+These files are for adding to the site files area
+They can be uploaded or used inside NB as sharing a site and it will clone/copy these over with the correct template code settings and content.
+
+Theme files are used as a base, and must be copied over direct into NB using upload files on theme area.
