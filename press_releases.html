@@ -1,0 +1,13 @@
+<div class="panel content-panel">
+
+    <p class="lead">{{ page.published_at | date: '%B %d, %Y' }}</p>
+    {% if page.has_author? %}
+    <p><strong>Contact:</strong><br>
+      <span><i class="icon icon-user"></i> {{ page.author.published_name }}</span><br>
+      {% if page.author.has_phone? %}<span><i class="icon icon-mobile"></i> {{ page.author.phone_number }}</span><br>{% endif %}
+      {% if page.author.has_email? %}<span><i class="icon icon-envelop-opened"></i> {{ page.author.email | enkode_email }}</span><br>
+      {% endif %}
+    </p>
+    {% endif %}
+    {{ page.press_release.content }}
+</div>

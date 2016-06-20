@@ -1,0 +1,388 @@
+{% if page.donation.has_merchant_account? == false %}
+<div class="panel panel-danger">
+  <div class="panel-heading"><h3 class="panel-title">No bank account:</h3></div>
+  <div class="panel-body">
+    This page will not work until you add a bank account
+  </div>
+</div>
+{% elsif page.donation.merchant_account.is_test_mode? %}
+<div class="panel panel-danger">
+  <div class="panel-heading"><h3 class="panel-title">Testing mode:</h3></div>
+  <div class="panel-body">
+    Transactions will not be processed. Use your regular credit card to test, you will not actually be charged.
+  </div>
+</div>
+{% endif %}
+
+<div class="panel content-panel">
+  {% include "headline" %}
+  {{ page.donation.content }}
+</div>
+
+{% if page.donation.has_amount_goal? %}
+<div class="panel content-panel">
+
+  <p class="lead">We're {{ page.donation.percent_of_amount_goal |times: 100}}% to our goal--help us get there?</p>
+  <div class="progress">
+    <div class="progress-bar" role="progressbar" aria-valuenow="{{ page.donations_amount_in_cents }}" aria-valuemin="0" aria-valuemax="{{ page.donation.amount_goal_in_cents  }}" style="width: {{ page.vote_pledge.percent_of_yes_goal |times: 100}}%;">
+      <span class="sr-only">{{ page.donation.percent_of_amount_goal | times: 100}}% complete</span>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+
+<div class="content-panel panel">
+
+  {% form_for donation %}
+  {% error_messages_for donation %}
+  <div class="well">
+
+
+    <p><span class="label label-info" >Personal Information</span></p>
+    <div class="row">
+      <div class="col-md-6 ">
+
+
+        <div class="form-group float-label ">
+          <label for="donation_first_name">First Name</label>
+          {% text_field "first_name", class:"form-control" %}
+        </div>
+
+        <div class="form-group float-label">
+          <label for="donation_last_name">Last Name</label>
+          {% text_field "last_name", class:"form-control" %}
+        </div>
+
+        <div class="form-group float-label">
+          <label for="donation_email">Email</label>
+          {% email_field "email", class:"form-control" %}
+        </div>
+
+        <input id="donation_billing_address_country_code" name="donation[billing_address_attributes][country_code]" value="US" type="hidden">
+
+
+        <div class="form-group float-label">
+          <label for="donation_billing_address_phone_number">Phone</label>
+          {% phone_field "billing_address.phone_number", class:"form-control" %}
+        </div>
+
+
+
+      </div>
+      <div class="col-md-6">
+
+        <div class="form-group float-label">
+          <label for="donation_billing_address_address1">Address</label>
+          {% text_field "billing_address.address1", class:"form-control" %}
+        </div>
+
+        <div class="form-group float-label">
+          <label for="donation_billing_address_city">City</label>
+          {% text_field "billing_address.city", class:"form-control" %}
+        </div>
+
+        <div class="form-group float-label">
+          <label for="donation_billing_address_state">State</label>
+          {% collection_select "billing_address.state", page.donation.us_states, "code", "name" class:"form-control"  %}
+        </div>
+
+        <div class="form-group float-label">
+          <label for="donation_billing_address_zip">Zip Code</label>
+          {% text_field "billing_address.zip", class:"form-control" %}
+        </div>
+      </div>
+    </div>
+  </div> <!-- end .well -->
+
+  {% if page.donation.merchant_account.is_employer_and_occupation_required? %}
+
+  <div class="well">
+    <p><span class="label label-info" >Employer Information</span></p>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group float-label">
+          <label for="donation_employer">Employer</label>
+          {% text_field "employer", class:"form-control" %}
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group float-label">
+          <label for="donation_occupation">Occupation</label>
+          {% text_field "occupation", class:"form-control" %}
+        </div>
+
+      </div>
+
+      {% if page.donation.merchant_account.is_employer_address_required? %}
+      <div class="col-md-6">
+        <div class="form-group float-label">
+          <label for="donation_work_address_country_code">Employer Country</label>
+          {% collection_select "work_address.country_code", page.donation.countries, "code", "name", class="form-control" %}
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group float-label">
+          <label for="donation_work_address_address1">Employer Address</label>
+          {% text_field "work_address.address1", class:"form-control" %}
+          {% text_field "work_address.address2", class:"form-control" %}
+          {% text_field "work_address.address3", class:"form-control" %}
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group float-label">
+          <label for="donation_work_address_city">Employer City</label>
+          {% text_field "work_address.city", class:"form-control" %}
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group float-label">
+          <label for="donation_work_address_state">Employer State</label>
+          {% text_field "work_address.state", class:"form-control" %}
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group float-label">
+          <label for="donation_work_address_zip">Employer Zip</label>
+          {% text_field "work_address.zip", class:"form-control" %}
+        </div>
+      </div>
+
+      {% elsif page.donation.merchant_account.is_employer_city_required? %}
+
+      <div class="col-md-6">
+        <div class="form-group float-label">
+          <label for="donation_work_address_country_code">Employer Country</label>
+          {% collection_select "work_address.country_code", page.donation.countries, "code", "name", class:"form-control" %}
+        </div>
+      </div>
+      <div class="col-md-6">
+
+        <div class="form-group float-label">
+          <label for="donation_work_address_city">Employer City</label>
+          {% text_field "work_address.city", class:"form-control" %}
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group float-label">
+          <label for="donation_work_address_state">Employer State</label>
+          {% text_field "work_address.state", class:"form-control" %}
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group float-label">
+          <label for="donation_work_address_zip">Employer Zip</label>
+          {% text_field "work_address.zip", class:"form-control" %}
+        </div>
+      </div>
+
+      {% endif %}
+
+
+      {% if page.donation.merchant_account.is_corporate_contribution_required? %}
+
+      <div class="col-md-6"><div class="checkbox">
+        <label for="donation_is_corporate_contribution">
+          {% check_box "is_corporate_contribution", class:"checkbox" %} This is a contribution from a business. </label>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  {% endif %}
+
+
+  <div class="well">
+    <p><span class="label label-info">Donation Information</span></p>
+    {% if request.current_order %}
+    {% for item in request.current_order.items %}
+    {% if item.num_time_periods and item.time_period_type %}
+    {{ item.quantity }} {{ item.name }} @ {{ item.amount }} - billed automatically every {{ item.num_time_periods }} {{item.time_period_type }}
+    {% else %}
+    {{ item.quantity }} {{ item.name }} @ {{ item.amount }}
+    {% endif %}
+    {% endfor %}
+    <a href="{{ page.donation.clear_order_url }}">Clear order</a>
+    {% elsif page.donation.donation_frequency == "monthly" %}
+    {% if page.donation.amount_in_cents != 0 %}
+    <h4 class="padbottom">{{ page.donation.amount_formatted }}</h4> Your credit card will be billed automatically every month
+    {% else %}
+    {% for amount in page.donation.amounts %}
+    <label class="radio-inline">
+      <input type="radio" name="donation[amount_option]" class="donation_amount_option" value="{{ amount }}"> ${{ amount }}
+    </label>
+    {% endfor %}
+    <br>
+    <script>
+      $('.donation_amount_option').on('click', function() {
+        $('#donation_amount').val('');
+      });
+
+      $('#donation_amount').on('click', function() {
+        $('.donation_amount_option').prop('checked', false);
+      });
+
+    </script>
+
+    <br>
+    <div class="input-group">
+      <span class="input-group-addon">
+        Other:
+      </span>
+      <input type="text" name="donation[amount]" id="donation_amount" class="form-control">
+    </div>
+    <br>
+
+    {% endif %}
+    {% if page.donation.max_installments > 1 %}
+    <label for="num_installments">I want to pay this in</label>{% collection_select "num_installments", page.donation.installment_collection, class:"select" %} installments
+    {% endif %}
+    {% else %}
+
+    {% for amount in page.donation.amounts %}
+    <label class="radio-inline">
+      <input type="radio" name="donation[amount_option]" class="donation_amount_option" value="{{ amount }}"> ${{ amount }}
+    </label>
+    {% endfor %}
+    <br>
+    <script>
+      $('.donation_amount_option').on('click', function() {
+        $('#donation_amount').val('');
+      });
+
+      $('#donation_amount').on('click', function() {
+        $('.donation_amount_option').prop('checked', false);
+      });
+
+    </script>
+
+
+    <br>
+    <div class="form-group float-label ">
+      <label for="donation_amount">Other Amount</label>
+      <input type="text" name="donation[amount]" id="donation_amount" class="form-control">
+    </div>
+  <br>
+
+  {% if page.donation.max_installments > 1 %}
+  <label for="num_installments">I want to pay this in</label>{% collection_select "num_installments", page.donation.installment_collection, class:"select" %} installments
+  {% endif %}
+  {% endif %}
+</div>
+
+
+{% if page.donation.has_merchant_account? and page.donation.merchant_account.is_paypal_express? == false %}
+
+<div class="well">
+  <p><span class="label label-info">Credit Card Info</span></p>
+  <div class="row">
+
+    <div class="col-md-6">
+
+      <div class="form-group float-label">
+        <label for="donation_card_number">Card Number</label>
+        {% phone_field "card_number", class:"form-control" %}
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group float-label">
+        <label for="donation_card_verification">Security Code</label>
+        {% phone_field "card_verification", class:"form-control" %}
+      </div>
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group float-label">
+        <label for="donation_card_expires_on_1i">Expiration Year</label>
+
+        <select class="form-control" id="donation_card_expires_on_1i" name="donation[card_expires_on(1i)]">
+          <option selected></option>
+          <option value="2016">2016</option>
+          <option value="2017">2017</option>
+          <option value="2018">2018</option>
+          <option value="2019">2019</option>
+          <option value="2020">2020</option>
+          <option value="2021">2021</option>
+          <option value="2022">2022</option>
+          <option value="2023">2023</option>
+          <option value="2024">2024</option>
+          <option value="2025">2025</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group float-label ">
+        <label for="donation_card_expires_on_2i">Expiration Month</label>
+        <select class="form-control" id="donation_card_expires_on_2i" name="donation[card_expires_on(2i)]">
+          <option selected></option>
+          <option value="1">1 - January</option>
+          <option value="2">2 - February</option>
+          <option value="3">3 - March</option>
+          <option value="4">4 - April</option>
+          <option value="5">5 - May</option>
+          <option value="6">6 - June</option>
+          <option value="7">7 - July</option>
+          <option value="8">8 - August</option>
+          <option value="9">9 - September</option>
+          <option value="10">10 - October</option>
+          <option value="11">11 - November</option>
+          <option value="12">12 - December</option>
+        </select>
+      </div>
+    </div>
+    <input id="donation_card_expires_on_3i" name="donation[card_expires_on(3i)]" type="hidden" value="1">
+  </div>
+
+</div>
+
+{% endif %}
+
+{% if page.donation.merchant_account.is_de? or page.donation.merchant_account.has_contribution_rules? %}
+<div class="well">
+  {% if page.donation.merchant_account.has_contribution_rules? %}
+  <p><span class="label label-info">Contribution Rules</span></p>
+
+  <p>{{ page.donation.merchant_account.contribution_rules }}</p>
+
+  <div class="checkbox">
+    <label for="donation_is_confirmed">
+      {% check_box "is_confirmed", class:"checkbox" %} I confirm that the above statements are true and accurate. </label>
+    </div>
+    {% endif %}
+
+    {% if page.donation.merchant_account.is_de? %}
+    <div class="checkbox">
+      <label for="donation_is_de_confirmed">
+        {% check_box "is_de_confirmed", class:"checkbox" style="" %} I agree to the Democracy Engine <a href="http://www.democracyengine.com/subscriber_tos" target="_new">Terms of Service</a>
+        and <a href="http://www.democracyengine.com/subscriber_privacy_policy" target="_new">Privacy Policy</a>. You will not receive any emails from them, they just deliver your donation to us.
+      </label>
+    </div>
+    {% endif %}
+
+  </div>
+  {% endif %}
+
+
+  {% if page.donation.merchant_account.is_paypal_express? %}
+  {% submit_tag "Proceed to PayPal", class:"btn btn-primary btn-lg btn-block" %}
+  {% else %}
+  {% submit_tag "Process my donation", class:"btn btn-primary btn-lg btn-block" %}
+  {% endif %}
+  {% endform_for %}
+
+</div>
+
+
+<script>
+  $(document).ready(function() {
+    if($('#donation_amount').closest('.pages_show_donation_wide'))
+      {if(window.location.search.indexOf('amount=') > -1)
+    {var amount = window.location.search.split('amount=')[1];
+    $('input#donation_amount').val(amount);
+  }}
+});
+</script>

@@ -1,0 +1,131 @@
+<div class="row">
+  <div class="col-md-6">
+    <div class="content-panel panel">
+      {% include "headline" %}
+      {{ page.endorsement.content }}
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="content-panel panel">
+      {% if page.endorsement.is_endorsed? %}
+
+      {% form_for endorsement %}
+      <p class="lead">Thanks for endorsing {{ site.name }}!</p>
+      <p>If you need to change your information, you can do so below.</p>
+      <div class="form_errors">{% error_messages_for endorsements %}</div>
+
+      {% if page.is_commentable? %}
+
+      <div class="form-group">
+        <label for="endorsement_content">Change your comment</label>
+        {% text_area "content", class:"form-control" %}
+      </div>
+      {% endif %}
+      {% if page.endorsement.is_image? %}
+      <div class="form-group">
+        <label for="endorsement_image">Upload an image</label>
+        {% file_field "image", class:"file" %}
+
+      </div>
+
+
+      {% endif %}
+
+      {% submit_tag "Update endorsement", class:"btn btn-primary btn-block" %}
+
+
+      <small>{{ page.endorsement.current_endorsement | delete_link message: "Remove endorsement" }}</small>
+
+      {% endform_for %}
+      {% else %}
+      <p class="lead">Fill out the form below to endorse {{ site.name }}:</p>
+      {% form_for endorsement %}
+      {% error_messages_for endorsement %}
+      {% if request.sorta_logged_in? == false or request.current_signup.has_name? == false %}
+      <div class="form-group">
+        <label for="endorsement_first_name">First Name</label>
+        {% text_field "first_name", class:"form-control" %}
+      </div>
+      <div class="form-group">
+        <label for="endorsement_last_name">Last Name</label>
+        {% text_field "last_name", class:"form-control" %}
+      </div>
+
+      {% endif %}
+      {% if request.sorta_logged_in? == false %}
+      <div class="form-group">
+        <label for="endorsement_email">Email</label>
+        {% email_field "email", class:"form-control" %}
+      </div>
+
+
+
+      {% endif %}
+      {% if page.endorsement.is_phone? %}
+      <div class="form-group">
+        <label for="endorsement_phone_number">Phone</label>
+        {% phone_field "phone_number", class:"form-control" %}
+      </div>
+
+      {% endif %}
+      {% if page.endorsement.is_address? %}
+      {% if request.sorta_logged_in? == false or request.current_signup.has_full_address? == false %}
+      <div class="form-group">
+        <label for="endorsement_submitted_address">Address</label>
+        {% phone_field "submitted_address", class:"form-control" %}
+      </div>
+
+      {% endif %}
+      {% endif %}
+      {% if page.is_commentable? %}
+
+      <div class="form-group">
+        <label for="endorsement_content">Add your reason for endorsing {{ site.name }}</label>
+        {% text_area "content", class:"form-control" %}
+      </div>
+      {% endif %}
+      {% if page.endorsement.is_image? %}
+      <div class="form-group">
+        <label for="endorsement_image">Upload an image</label>
+        {% file_field "image", class:"file" %}
+
+      </div>
+
+
+      {% endif %}
+      {% if page.endorsement.is_volunteer? and site.ask_for_volunteers? %}
+      {% if request.sorta_logged_in? == false or request.current_signup.is_volunteer == false %}
+      <div class="form-group"><div class="checkbox">
+        <label for="endorsement_is_volunteer">
+          {% check_box "is_volunteer", class:"checkbox" %} I want to volunteer
+        </label>
+        </div>
+      </div>
+
+      {% endif %}
+      {% endif %}
+      <div class="form-group">
+        {% submit_tag "Add endorsement", class:"btn btn-primary btn-block" %}
+      </div>
+      {% endform_for %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    {% if page.endorsement.featured_endorsements_with_images.size > 0 %}
+    <h2>Featured endorsements:</h2>
+    <div class="row">{% for endorsement in page.endorsement.featured_endorsements_with_images  %}
+      <div class="col-md-3">
+        <div class="thumbnail">
+          <img src="{{ endorsement.large_square_image_url }}">
+          <div class="text-center">{{ endorsement.signup.published_name }}</div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</div>

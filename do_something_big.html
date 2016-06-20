@@ -1,0 +1,38 @@
+<div class="row" >
+  <div class="col-md-8">
+    {% if page.has_author? %}
+    {% include "page_byline" %}
+    {% endif %}
+    {% if page.suggestion.has_image? %}<img src="{{ page.suggestion.image_url }}" class="thumbnail img-responsive">{% endif %}
+    
+    
+    {% if page.suggestion.content.size > 0 %}
+    {{ page.suggestion.content }}
+    {% endif %}
+    
+    {% if page.suggestion.is_answered? %}
+    <hr>
+    <h4>Official response:</h4>
+    <blockquote>
+      {% if page.suggestion.is_answer_type? %}
+      <span class="label label-primary">Status: {{ page.suggestion.answer_type }}</span>
+      {% endif %}
+      
+      <p>{{ page.suggestion.answer }}</p>
+      <footer><cite title="Source Title">{{ page.suggestion.answer_author.published_name }}</cite></footer>
+    </blockquote>
+    {% endif %}
+  </div> 
+  
+  <div class="col-md-4">
+    
+    {% if page.suggestion.suggestion_box_tag_names.size > 0 %}
+    
+    <h4>How would you tag this suggestion?</h4>
+    <div class="form-inline">
+      {{  page.suggestion.tag_list_html |replace:'suggestion_tag_list checkbox-inline','list-unstyled' }}
+  </div>
+    
+  </div>
+  {% endif %}
+</div>

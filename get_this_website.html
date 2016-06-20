@@ -1,0 +1,89 @@
+<div class="panel content-panel">
+
+    {{ page.event.content }}
+    {% include "addtocalendar" %}
+
+    <address>
+      <strong>When:</strong><br>
+      {% if page.event.is_multi_day? %}
+      {{ page.event.local_start_at | event_time }} - {{ page.event.local_end_at | event_date }}<br>
+      {% else %}
+      {{ page.event.local_start_at | event_time }} - {{ page.event.local_end_at | event_just_time }}<br>
+      {% endif %}
+    </address>
+
+
+    {% if page.event.has_venue? %}
+    <address>
+      <strong>Where:</strong><br>
+      {% if page.event.venue_name.size > 0 %}
+      {{ page.event.venue_name }}<br/>
+      {% endif %}
+      {% for line in page.event.venue_address.multi_line %}
+      {{ line }}<br/>
+      {% endfor %}
+      {% if page.event.has_venue_address? %}
+      <a href="{{ page.event.venue_address.google_map_link }}">Google map and directions</a><br>
+      {% endif %}
+    </address>
+
+    {% endif %}
+
+    {% if page.event.has_contact? %}
+    <address>
+      <strong>Contact:</strong><br>
+
+      <i class="icon icon-user"></i> {{ page.event.contact_name }}<br>
+      {% if page.event.has_public_contact_email? %}
+      <i class="icon icon-envelop-opened"></i> {{ page.event.contact_email | enkode_email }}<br>
+      {% endif %}
+      {% if page.event.has_public_contact_phone_number? %}
+      <i class="icon icon-mobile"></i> {{ page.event.contact_phone_number }}<br>
+      {% endif %}
+    </address>
+
+    {% endif %}
+
+
+    {% if page.event.is_ticket_required? %}
+    {% if page.event.show_guests? and page.event.rsvps_count > 0 %}
+    <address>
+      <strong>RSVP{% if page.event.rsvps_count > 1 %}s{% endif %}:</strong> <span class="label label-primary">{{ page.event.rsvps_count | number_with_commas }}</span><br>
+    </address>
+
+    {% endif %}
+
+    {% if page.event.is_maximum_capacity? %}
+
+    <div class="alert alert-danger">Sorry, this event is sold out.</div>
+
+    {% else %}
+
+
+    {% include "eventticket" %}
+    {% include "eventrsvp" %}
+    {% endif %}
+
+    {% else %}
+
+    {% if page.event.is_user_ticket_required? %}
+
+    <h4>Purchase tickets:</h4>
+    <p>
+      {{ page.event.user_ticket_price_with_currency }}
+      {% if page.event.has_user_ticket_purchase_url? %}
+      - <a href="{{ page.event.user_ticket_purchase_url }}">Purchase tickets</a>
+      {% endif %}
+    </p>
+
+    {% elsif page.event.has_user_ticket_purchase_url? %}
+
+    <h4>Get your tickets:</h4>
+    <p><a href="{{ page.event.user_ticket_purchase_url }}">Click here to get your free ticket!</a></p>
+
+    {% endif %}
+
+    {% include "eventrsvp" %}
+
+    {% endif %}
+  </div>
