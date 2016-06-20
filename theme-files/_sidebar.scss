@@ -1,0 +1,45 @@
+.sidebar-panel {
+  a.btn-block {
+    margin-bottom: 7.5px;
+  }
+  h2.widget-title {
+    font-size: 1.5em;
+    text-align: center;
+  }
+  hr {
+    margin: 23px -25px;
+  }
+}
+
+.facebook-sidebar {
+  margin-top: 15px;
+}
+
+
+.twitter-sidebar {
+  img {
+    display: none;
+  }
+  span[data-scribe="element:name"] {
+    color: $primary;
+    font-weight: 600;
+  }
+  span[data-scribe="element:screen_name"] {
+    color: $gray-light;
+  }
+  .timePosted {
+    float: left;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 90%;
+    a {
+      color: $secondary;
+    }
+  }
+  .interact {
+    float: right;
+  }
+  .tweet {
+    margin-bottom: 0;
+  }
+}

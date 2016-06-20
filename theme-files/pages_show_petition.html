@@ -1,0 +1,119 @@
+<div class="panel content-panel">
+
+  {{ page.petition.intro }}
+
+  {% if page.petition.has_goal? %}
+  <p>We're {{ page.petition.percent_of_goal |times: 100}}% of the way to our goal, help us get there!</p>
+  <div class="progress">
+    <div class="progress-bar progress-bar-striped active"  role="progressbar" aria-valuenow="{{ page.petition.signatures_count}}" aria-valuemin="0" aria-valuemax="{{ page.petition.goal }}" style="width: {{ page.petition.percent_of_goal | times: 100 }}%;min-width: 20px">
+      <span>{{ page.petition.percent_of_goal |times: 100}}%</span>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if page.petition.content.size > 0 %}
+  <blockquote>{{ page.petition.content }}</blockquote>
+  {% endif %}
+</div>
+<div class="panel content-panel">
+
+    {% if page.petition.is_signed? %}
+
+    <h3 class="subhead">Thanks for signing! Now, share with your friends!</h3>
+    {% include "like_page" %}
+    {% else %}
+    <h3 class="subhead">Sign the petition:</h3>
+
+  <div class="padded-form">
+
+    {% form_for petition_signature %}
+    {% error_messages_for petition_signature %}
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="petition_signature_first_name">First Name</label>
+          {% text_field "first_name", class:"form-control" %}
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="petition_signature_last_name">Last Name</label>
+          {% text_field "last_name", class:"form-control" %}
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="petition_signature_email">Email</label>
+      {% email_field "email", class:"form-control" %}
+    </div>
+    <div class="form-group"><div class="checkbox">
+      <label for="petition_signature_email_opt_in">
+        {% check_box "email_opt_in", class:"checkbox" %} Send me email updates
+      </label>
+    </div>
+  </div>
+
+  {% if page.petition.is_address? %}
+  {% if request.sorta_logged_in? == false or request.current_signup.has_full_address? == false %}
+  <div class="form-group">
+    <label for="petition_signature_submitted_address">Zip</label>
+    {% text_field "submitted_address", class:"form-control" %}
+  </div>
+  {% endif %}
+  {% endif %}
+
+  {% if page.petition.is_phone? %}
+
+  <div class="form-group">
+    <label for="petition_signature_phone_number">Phone Number</label>
+    {% phone_field "phone_number", class:"form-control" %}
+  </div>
+
+  {% endif %}
+
+
+  {% if page.petition.is_volunteer? and site.ask_for_volunteers? %}
+  {% if request.sorta_logged_in? == false or request.current_signup.is_volunteer == false %}
+
+
+  <div class="form-group"><div class="checkbox">
+    <label for="petition_signature_is_volunteer">
+      {% check_box "is_volunteer", class:"checkbox" %} I want to volunteer
+    </label>
+  </div>
+</div>
+{% endif %}
+{% endif %}
+
+{% if page.is_commentable? %}
+<div class="form-group">
+  <label for="petition_signature_content">Comments</label>
+  {% text_area "content", class:"form-control" %}
+</div>
+{% endif %}
+
+{% if page.petition.is_image? %}
+<div class="form-group">
+  <label for="petition_signature_image">Upload a picture</label>
+  {% file_field "image", class:"" %}
+  <!--p class="help-block">Help text</p-->
+  {% if petition_signature.has_image? %}
+  <img src="{{ petition_signature.large_square_image_url }}" width="140" height="140" border="0" class="img-responsive"/>
+  {% endif %}
+</div>
+{% endif %}
+
+{% submit_tag "Add your name!", class:"btn btn-primary btn-block" %}
+<div class="form_submit"></div>
+{% if page.text_keyword_instructions.size > 0 %}
+<br>
+<p>You can also {{ page.text_keyword_instructions | downcase }}</p>
+{% endif %}
+{% endform_for %}
+</div>
+
+{% endif %}
+
+</div>
+

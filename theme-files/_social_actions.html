@@ -1,0 +1,48 @@
+
+<section class="social">
+  <div class="mini-container">
+    <div class="row">
+      <div class="col-sm-7">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h2>Action Center</h2>
+          </div>
+          <div class="panel-body">
+            <p>We need you to do these three things. Will you help?</p>
+            <div class="button-container">
+              {% if site.has_button1? %}
+                <a href="{{ site.button1_page.full_url_with_profile_recruiter | replace: 'https', 'http'}}" class="btn btn-block btn-success">{{ site.button1_text }}</a>
+              {% endif %}
+              {% if site.has_button2? %}
+                <a href="{{ site.button2_page.full_url_with_profile_recruiter | replace: 'https', 'http'}}" class="btn btn-block btn-success">{{ site.button2_text }}</a>
+              {% endif %}
+              {% if site.has_button3? %}
+                <a href="{{ site.button3_page.full_url_with_profile_recruiter | replace: 'https', 'http'}}" class="btn btn-block btn-success">{{ site.button3_text }}</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-5">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h2>Connect</h2>
+          </div>
+          <div class="panel-body">
+            <p>Join us on social media!</p>
+            {% if site.has_twitter? %}
+              <a href="{{ site.broadcaster.twitter_profile_url }}" target="_blank" class="btn btn-block btn-tw"><i class="icon icon-twitter"></i> Twitter</a>
+            {% endif %}
+            {% if site.broadcaster.has_facebook? %}
+              <a href="{{ site.broadcaster.facebook_page_profile_url }}" target="_blank" class="btn btn-block btn-fb"><i class="icon icon-facebook"></i> Facebook</a>
+            {% endif %}
+
+              <a href="http://instagram.com" target="_blank" class="btn btn-block btn-ig"><i class="icon icon-instagram"></i> Instagram</a>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>

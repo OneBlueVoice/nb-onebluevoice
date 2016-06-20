@@ -1,0 +1,96 @@
+{% unless page.signup.content == "" %}
+  <div class="content-panel panel">
+    {% include "headline" %}
+    {{ page.signup.content }}
+  </div>
+
+{% endunless %}
+
+  <div class="content-panel panel">
+    {% if request.sorta_logged_in? %}
+      <h3 class="text-center">Thanks for signing up!</h3>
+      <p>You can update your info below:</p>
+      {% endif %}
+      {% form_for signup %}
+      {% error_messages_for signup %}
+
+      <div class="form-group">
+        <label for="{{ request.template | remove:'pages_show_' | remove:'_wide' }}_first_name">First Name</label>
+        {% text_field "first_name", class:"form-control" %}
+      </div>
+
+      <div class="form-group">
+        <label for="{{ request.template | remove:'pages_show_' | remove:'_wide' }}_name">Last Name</label>
+        {% text_field "last_name", class:"form-control" %}
+      </div>
+
+
+      <div class="form-group">
+        <label for="{{ request.template | remove:'pages_show_' | remove:'_wide' }}_email">Email</label>
+        {% text_field "email", class:"form-control" %}
+      </div>
+
+      {% if site.ask_for_mobiles? %}
+      <div class="form-group">
+        <label for="{{ request.template | remove:'pages_show_' | remove:'_wide' }}_mobile_number">Mobile phone</label>
+        {% text_field "mobile_number", class:"form-control" %}
+      </div>
+
+      {% endif %}
+      <div class="form-group"><div class="checkbox">
+        <label for="{{ request.template | remove:'pages_show_' | remove:'_wide' }}_email_opt_in">
+          {% check_box "email_opt_in", class:"checkbox" %} Send me email updates
+        </label>
+        </div>
+      </div>
+
+      {% if site.ask_for_mobiles? %}
+      <div class="form-group"><div class="checkbox">
+        <label for="{{ request.template | remove:'pages_show_' | remove:'_wide' }}_mobile_opt_in">
+          {% check_box "mobile_opt_in", class:"checkbox" %} Send me text messages
+        </label>
+        </div>
+      </div>
+      {% endif %}
+
+
+      <div class="form-group">
+        <label for="{{ request.template | remove:'pages_show_' | remove:'_wide' }}_submitted_address">Address</label>
+        {% text_field "submitted_address", class:"form-control" %}
+      </div>
+
+
+      {% if page.signup.is_volunteers? and site.ask_for_volunteers? %}
+      {% if request.logged_in? == false or request.current_signup.is_volunteer == false %}
+      <div class="form-group"><div class="checkbox">
+        <label for="{{ request.template | remove:'pages_show_' | remove:'_wide' }}_is_volunteer">
+          {% check_box "is_volunteer", class:"checkbox" %} I want to volunteer
+        </label>
+        </div>
+      </div>
+
+      {% endif %}
+      {% endif %}
+
+
+      {% if page.signup.has_optional_tags? %}
+      <div class="form-group">
+        <label for="{{ request.template | remove:'pages_show_' | remove:'_wide' }}_optional_tag">
+          Choose one
+        </label>
+        {% collection_select "optional_tag", page.signup.optional_tags, class:"form-control" %}
+
+      </div>
+
+      {% endif %}
+      {% if request.sorta_logged_in? %}
+      {% submit_tag "Update your info", class:"btn btn-primary btn-block" %}
+      {% else %}
+      {% submit_tag "Sign Up!", class:"btn btn-primary btn-block" %}
+      {% endif %}
+
+      <div class="form_submit"></div>
+      {% endform_for %}
+  </div>
+
+

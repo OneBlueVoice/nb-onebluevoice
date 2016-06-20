@@ -1,0 +1,71 @@
+<nav class="navbar navbar-inverse navbar-transparent" id="nav-transparent-1" role="navigation">
+  <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+
+          {% if site.meta_image_url contains "missing" %}
+            <a class="navbar-brand" href="/">
+            {{site.name}}
+            </a>
+          {% else %}
+            <a class="navbar-brand navbar-logo" href="/">
+              <img src="{{site.meta_image_url}}" alt="{{site.name}}">
+            </a>
+
+          {% endif %}
+      </div>
+
+
+      <div class="collapse navbar-collapse" id="navbar">
+        <ul class="nav navbar-nav navbar-right">
+          {% for child in site.root_nav_pages %}
+            {% if child.leaf? or child.nav_children.size == 0 %}
+              <li class="{% if child.is_or_is_ancestor_of_current_page? %}active{% endif %}">
+                <a href="{{ child.url }}">{{ child.name }}</a>
+              </li>
+            {% else %}
+              <li class="dropdown {{child.slug}}-dropdown {% if child.is_or_is_ancestor_of_current_page? %}active{% endif %}">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" {% if site.show_parent_in_nav_dropdown? %}{% else %} data-hover="dropdown" {% endif %} data-target=".{{child.slug}}-dropdown">{{ child.name }} <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  {% if site.show_parent_in_nav_dropdown? %}
+                    <li><a href="{{ child.url }}">{{ child.name }}</a></li>
+                  {% endif %}
+
+                  {% for child2 in child.nav_children %}
+                    {% if child2.leaf? or child2.nav_children.size == 0 %}
+                      <li><a href="{{ child2.url }}">{{ child2.name }}</a></li>
+                    {% else %}
+
+                      <li class="{{child2.slug}}-dropdown">
+
+                        <a href="#" class="sub-nav-dropdown" data-toggle="dropdown" data-target=".{{child2.slug}}-dropdown">{{ child2.name }} &rarr;</a>
+
+
+                        <ul class="dropdown-menu sub-dropdown">
+
+                          {% if site.show_parent_in_nav_dropdown? %}
+                            <li><a href="{{ child2.url }}">{{ child2.name }}</a></li>
+                          {% endif %}
+
+                          {% for child3 in child2.nav_children %}
+                            <li><a href="{{ child3.url }}">{{ child3.name }}</a></li>
+                          {% endfor %}
+                        </ul>
+                      </li>
+                    {% endif %}
+
+                  {% endfor %}
+                </ul>
+              </li>
+            {% endif %}
+          {% endfor %}
+
+        </ul>
+      </div>
+  </div>
+</nav>

@@ -1,0 +1,160 @@
+#action-bar {
+  position: fixed;
+  color: #fff;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 10px 0;
+  
+}
+body {
+  margin-bottom: 0px;
+}
+#action-bar>.wrap {
+  position: relative;
+  padding: 0;
+  width: 100%;
+  overflow: hidden;
+  background: transparent;
+}
+#action-bar a {
+  color: #fff;
+}
+.logo-link {
+  position: relative;
+  left: 0;
+  width: 100%;
+
+}
+
+nav.logo-link {
+  text-align: center;
+}
+
+#menu-icon {
+  display: none;
+}
+#action-bar {
+  border: none;
+}
+#action-bar .wrap {
+  background: transparent;
+  position: relative;
+  width: 940px;
+}
+}
+#ft {
+  background: #fff;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  font-size: 12px;
+  border-top: 1px solid #ddd;
+}
+#ft .wrap {
+  margin-left: auto;
+  margin-right: auto;
+  border: none;
+  background: white;
+}
+#ft .disclaimer-license {
+  text-align: center;
+  text-align: center;
+  padding: 0px;
+  background-repeat: no-repeat;
+  background-position: 50% 40px;
+}
+#ft .disclaimer-license .license {
+  display: block;
+}
+#ft .disclaimer-license .disclaimer {
+  display: inline-block;
+  padding: 5px;
+  border: 1px solid #ccc;
+  text-transform: uppercase;
+  text-transform: uppercase;
+  margin: 20px 0;
+  width:300px;
+}
+.wrap {
+  text-align: center;
+  margin: 0px auto auto;
+}
+.continue {
+  position: absolute;
+  right: 10px;
+  bottom: -15px;
+}
+* {
+  margin: 0;
+}
+h3 {
+  font-weight: bold;
+  color: #666 !important;
+}
+html, body {
+  height: 100%;
+  padding-top: 0px !important;
+  overflow: hidden;
+}
+
+#action-bar .logo {
+  margin: 0 auto;
+  display: block;
+}
+.wrapper {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -56px;
+}
+.footer, .push {
+  height: 56px;
+}
+section {
+  background: rgba(255, 255, 255, 0.8);
+  width: 600px;
+  margin-left: -300px;
+  position: absolute;
+  bottom: 15%;
+  left: 50%}
+  #logobox {
+    position: absolute;
+    right: 15%;
+    top: 0px;
+  }
+
+  #action-bar {
+    position: fixed;
+    background: white;
+    box-shadow: none;
+  }
+
+  #ft .disclaimer-license .disclaimer {
+
+    margin: 12px;}
+
+    .disclaimer p {
+      margin: 0px;
+    }
+
+
+    #main .wrap {padding:20px;}
+    #action-bar .logo {
+      background-size: cover;
+      height: 150px !important;}
+
+      .container {
+        background: white;
+      }
+      #maincontainer{
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        bottom: 68px;
+        background: white;
+        padding: 30px;}

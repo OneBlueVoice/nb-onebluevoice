@@ -1,0 +1,53 @@
+<div class="panel sidebar-panel">
+
+{% comment %}  {% if request.logged_in? %}
+
+  {% include "supporter_nav" %}
+
+  {% endif %}
+{% endcomment %}
+
+  {% if site.has_signup_page? %}
+  {% include "signup_form" with site.signup_page %}
+  {% endif %}
+  <div class="row">
+    {% if site.has_button1? %}
+    <div class="col-sm-4 col-md-12">
+      <a href="{{ site.button1_page.full_url_with_profile_recruiter }}" class="btn btn-block btn-primary">{{ site.button1_text }}</a>
+    </div>
+    {% endif %}
+    {% if site.has_button2? %}
+    <div class="col-sm-4 col-md-12">
+      <a href="{{ site.button2_page.full_url_with_profile_recruiter }}" class="btn btn-block btn-success">{{ site.button2_text }}</a>
+    </div>
+    {% endif %}
+    {% if site.has_button3? %}
+    <div class="col-sm-4 col-md-12">
+      <a href="{{ site.button3_page.full_url_with_profile_recruiter }}" class="btn btn-block btn-warning">{{ site.button3_text }}</a>
+    </div>
+    {% endif %}
+  </div>
+  <hr>
+
+  <div class="row">
+    {% if site.has_twitter? %}
+    <div class="col-sm-6 col-md-12">
+      {% subpage "twitter" with "twitter", sidebar: true %}
+    </div>
+    {% endif %}
+
+    {% if site.has_facebook_page? %}
+    <div class="col-sm-6 col-md-12 facebook-sidebar">
+      <hr>
+
+      <h2 class="widget-title">
+        Facebook
+      </h2>
+
+      <div class="fb-like-box" data-href="{{ site.broadcaster.facebook_page_profile_url }}" data-colorscheme="light" data-show-faces="false" data-header="false" data-stream="true" data-show-border="false"></div>
+    </div>
+    {% endif %}
+
+
+  </div>
+</div>

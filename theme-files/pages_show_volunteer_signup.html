@@ -1,0 +1,104 @@
+<div class="panel content-panel">
+  {% include "headline" %}
+  {{ page.volunteer_signup.content }}
+</div>
+
+<div class="panel content-panel">
+  {% error_messages_for volunteer_signup %}
+  {% if request.sorta_logged_in? %}
+    {% if request.current_signup.is_volunteer? %}
+      <h3 class="subhead">Hi {{ request.current_signup.name_or_email }}, we have you down as a volunteer.</h3>
+      <p>You can update your info below.</p>
+    {% else %}
+      <h3 class="subhead">Hi {{ request.current_signup.name_or_email }}, will you volunteer?</h3>
+    {% endif %}
+    {% if request.logged_in? == false %}
+      <p> If you're not {{ request.current_signup.name_or_email }}, <a href="{{ request.current_signup.logout_url }}">click here</a>.</p>
+    {% endif %}
+  {% else %}
+    <h3 class="subhead">Will you volunteer?</h3>
+  {% endif %}
+
+  <div class="padded-form">
+    {% form_for volunteer_signup %}
+
+    {% if request.sorta_logged_in? == false or request.current_signup.has_name? == false %}
+    <div class="form-group float-label">
+      <label for="{{ request.template | remove:'pages_show_' | remove:'_wide' }}_first_name">First Name</label>
+      {% text_field "first_name", class:"form-control" %}
+    </div>
+    <div class="form-group float-label">
+      <label for="{{ request.template | remove:'pages_show_' | remove:'_wide' }}_last_name">Last Name</label>
+      {% text_field "last_name", class:"form-control" %}
+    </div>
+
+    {% endif %}
+
+    {% if page.volunteer_signup.is_address? %}
+    {% if request.sorta_logged_in? == false or request.current_signup.has_full_address? == false %}
+    <div class="form-group float-label">
+      <label for="{{ request.template | remove:'pages_show_' | remove:'_wide' }}_submitted_address">Address</label>
+      {% text_field "submitted_address", class:"form-control" %}
+    </div>   {% endif %}
+    {% endif %}
+
+    {% if request.sorta_logged_in? == false %}
+    <div class="form-group float-label">
+      <label for="{{ request.template | remove:'pages_show_' | remove:'_wide' }}_email">Email</label>
+      {% email_field "email", class:"form-control" %}
+    </div>
+
+
+
+    <div class="form-group"><div class="checkbox">
+      <label for="{{ request.template | remove:'pages_show_' | remove:'_wide' }}_email_opt_in">
+        {% check_box "email_opt_in", class:"checkbox" %} Send me email updates
+      </label>
+      </div>
+    </div>
+
+
+
+    {% endif %}
+    {% if page.volunteer_signup.is_phone? %}
+    <div class="form-group float-label">
+      <label for="{{ request.template | remove:'pages_show_' | remove:'_wide' }}_phone_number">Phone Number</label>
+      {% phone_field "phone_number", class:"form-control" %}
+    </div>
+
+    <div class="form-group">
+      <label for="{{ request.template | remove:'pages_show_' | remove:'_wide' }}_phone_time">When can we give you a call?</label>
+      {% text_field "phone_time", class:"form-control" %}
+    </div>
+
+
+    {% endif %}
+
+
+    <div class="form-group">
+      <label for="{{ request.template | remove:'pages_show_' | remove:'_wide' }}_availability">When can you volunteer?</label>
+      {% text_field "availability", class:"form-control" %}
+    </div>
+
+    <div class="form-group">
+      <label for="{{ request.template | remove:'pages_show_' | remove:'_wide' }}_content">Any comments or questions?</label>
+    {% text_area "content", class:"form-control" %}
+    </div>
+
+    <label>I'd be interested in:</label>
+    {% for volunteer_type in page.volunteer_signup.volunteer_types %}
+    <div class="form-group" ><div class="checkbox">
+      <label>{% check_box_tag 'volunteer_signup[volunteer_type_ids][]', volunteer_type.id, collection:volunteer_signup.volunteer_type_ids, member:volunteer_type.id, class:"checkbox" %}
+        {{ volunteer_type.name }}
+      </label></div>
+    </div>
+    {% endfor %}
+    {% hidden_field_tag 'volunteer_signup[volunteer_type_ids][]', '' %}
+    <div class="form-group">
+      {% submit_tag "Save volunteer info", class:"btn btn-block btn-success" %}
+    </div>
+
+    {% endform_for %}
+  </div>
+</div>
+

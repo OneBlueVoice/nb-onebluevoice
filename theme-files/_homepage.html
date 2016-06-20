@@ -1,0 +1,80 @@
+{% comment %}<section class="feature-hero hero">
+  {% for element in page.features | limit: 1 %}
+    <div class="feature">
+      <img src="{{ element.image_url }}" alt="{{ element.name }}" class="featured-image">
+      <div class="details">
+        <h2>{{ element.headline }}</h2>
+        <a href="{{element.page.url}}" class="btn btn-primary">{{ element.page.name }}</a>
+      </div>
+    </div>
+  {% endfor %}
+</section>
+{% endcomment %}
+
+<section class="meta-hero hero">
+  <div class="feature">
+    <img src="{{ page.meta_image_url }}" alt="{{ page.name }}" class="featured-image">
+  </div>
+</section>
+
+<section class="join-bar hanging-background">
+  <div class="container">
+
+    <div class="mini-container">
+      <h4 class="text-center text-white">Join our Fight!</h4>
+      <div class="row">
+
+        {% form_for signup %}
+          <div class="col-sm-5 col-xs-8">
+            {% email_field "email", class:"form-control" placeholder="Email..." %}
+          </div>
+          <div class="col-sm-3 col-xs-4">
+            {% text_field "submitted_address", class:"form-control" placeholder="Zip..." %}
+          </div>
+          <div class="col-sm-4 col-xs-12">
+            {% submit_tag "Stay Informed", class:"btn btn-success btn-block" %}
+          </div>
+        {% endform_for %}
+
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+<section class="mission-statement">
+  <div class="container">
+    <div class="panel content-panel">
+      <h2>{{ page.headline }}</h2>
+      {{ page.basic.content }}
+    </div>
+  </div>
+</section>
+
+<section class="three-cards">
+  <div class="row">
+    {% for element in page.features | limit: 3 %}
+      <div class="col-sm-4">
+        <div class="panel card-panel">
+          <a class="image-container image-{{ forloop.index }}" href="{{element.page.url}}">
+            <img src="{{ element.image_url }}" alt="{{ element.name }}">
+            <h3 class="subhead">{{ element.name }}</h3>
+          </a>
+          <div class="card-content">
+            {{ element.headline }}
+          </div>
+          <div class="card-footer">
+            <a href="{{ element.page.url }}" class="btn btn-flat btn-primary">Read More</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% subpage "blog" with "latest_news_block" %}
+
+{% subpage "twitter" with "twitter" %}
+
+{% include "social_actions" %}

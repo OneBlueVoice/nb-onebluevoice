@@ -1,0 +1,22 @@
+<span class="addtocalendar atc-style-blue btn btn-primary">
+  <var class="atc_event">
+    <var class="atc_date_start">{{ page.event.local_start_at | date: '%-d-%m-%Y %H:%M:%S' }}</var>
+    <var class="atc_date_end">{{ page.event.local_end_at | date: '%-d-%m-%Y %H:%M:%S' }}</var>
+    <var class="atc_timezone">America/New_York</var>
+    <var class="atc_title">{{ page.name }}</var>
+    <var class="atc_description">{{ page.event.content | strip_html | truncatewords: 30 }}: {{ page.full_url }}</var>
+    <var class="atc_location">{{ page.event.venue_name }} - {{ page.event.venue_address.one_line }}</var>
+    <var class="atc_organizer">{{ page.event.contact_name }}</var>
+    <var class="atc_organizer_email">{{ page.event.contact_email }}</var>
+  </var>
+</span>
+
+<link href="http://addtocalendar.com/atc/1.5/atc-style-blue.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">(function () {
+  if (window.addtocalendar)if(typeof window.addtocalendar.start == "function")return;
+  if (window.ifaddtocalendar == undefined) { window.ifaddtocalendar = 1;
+                                            var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
+                                            s.type = 'text/javascript';s.charset = 'UTF-8';s.async = true;
+                                            s.src = ('https:' == window.location.protocol ? 'https' : 'http')+'://addtocalendar.com/atc/1.5/atc.min.js';
+                                            var h = d[g]('body')[0];h.appendChild(s); }})();
+</script>

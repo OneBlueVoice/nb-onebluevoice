@@ -1,0 +1,90 @@
+{% if profile.profile_headline.size > 0 %}
+<div class="media">
+  <div class="pull-left">
+    {{ profile.bigger_profile_image }}
+    </div>
+    <div class="media-body">
+      <p class="lead">{{ profile.profile_headline }}</p>
+      {% if profile.profile_content.size > 0 %}
+      {{ profile.profile_content }}
+      {% endif %}
+    
+  </div>
+</div>
+  {% endif %}
+  
+  
+  
+  
+  
+  
+  <div id="signup_follow_{{ profile.id }}">
+    {% include "signup_follow" with profile %}
+  </div>
+  
+  
+  {% if profile.has_bio? %}
+  <strong>{{ profile.published_name }}'s bio:</strong>
+  {{ profile.bio | link_urls }}
+  {% endif %}
+  {% if profile.has_website? %}
+  <br><strong>Website: </strong><a href="{{ profile.website }}">{{ profile.website }}</a>
+  {% endif %}
+  
+  {% if profile.has_twitter_info? %}
+  <br><a href="{{ profile.twitter_profile_url }}" class="twitter-follow-button" data-show-count="true" data-show-screen-name="true">>@{{ profile.twitter_login }}</a>
+  {% endif %}
+  <br>
+  
+  
+  
+  
+  
+  
+  
+  {% if settings.is_donor? %}
+  {% if profile.has_fundraising_goal? %}
+  <script>$(document).ready(function(){
+  $('#sample_goal').goalProgress({
+    goalAmount: {{ profile.donations_to_raise_amount_in_cents | divided_by: 100 }},
+                                 currentAmount: {{ profile.donations_raised_amount_in_cents | divided_by: 100 }},
+                                 textBefore: '$ ',
+                                 textAfter: ' dollars raised'
+                                 });
+});</script>
+  
+  <div id="sample_goal"></div>
+  <br>
+  {% endif %}
+  {% endif %}
+  
+  
+  
+  
+  
+  {% if profile.most_recent_posts.size > 0 %}
+  
+  <ul class="list-group">
+    {% for post in profile.most_recent_posts %}
+    
+    
+    
+    <li class="list-group-item">{{ post.activity.show }}</li>
+    {% if post.activity.show_page? %}
+    
+    <blockquote style="margin-bottom:0px;">
+      <h3><a href="{{ post.page.url | recruiter_url recruiter_id:profile.id }}">{{ post.page.headline }}</a></h3>
+      {% include "page_profile" with post.page %}	
+    </blockquote>
+    
+    {% endif %}
+    {% endfor %}
+    
+    
+  </ul>
+  
+  
+  
+  {{ profile.most_recent_posts | paginate }}
+  
+  {% endif %}

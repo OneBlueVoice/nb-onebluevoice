@@ -1,0 +1,38 @@
+<div class="panel content-panel">
+
+{{ page.directory.content }}
+
+<script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.css' rel='stylesheet' />
+<style>
+  #map {height:600px;width:100%;}
+</style>
+{% capture lol %}{{ page.directory.listings.size | divided_by: 30 | plus: 1 }}{% endcapture %}
+<div id="map"></div>
+
+<script>
+  function onEachFeature(feature, layer) {
+    // does this feature have a property named popupContent?
+    if (feature.properties) {
+      layer.bindPopup("<h3>"+feature.properties.title +"</h3><p>" +feature.properties.twitter+"</p>");
+    }
+  }
+
+  L.mapbox.accessToken = 'pk.eyJ1Ijoicnlhbm1vcmdhbiIsImEiOiJEVDRDNVNBIn0.DwpfD85yhAE9nvCQ1keZQg';
+  var map = L.mapbox.map('map', 'ryanmorgan.map-dsocajar').setView([39.011902 , -98.484246], 3);
+  // https://a.tiles.mapbox.com/v4/ryanmorgan.map-dsocajar/page.html?access_token=pk.eyJ1Ijoicnlhbm1vcmdhbiIsImEiOiJEVDRDNVNBIn0.DwpfD85yhAE9nvCQ1keZQg#12/38.8978/-77.0130
+
+
+  {% for num in (1...lol) %}
+
+  $.getJSON("{{ page.full_url }}?page={{ num }}", function(data) {
+
+    L.geoJson(data, { style: L.mapbox.simplestyle.style ,
+                     onEachFeature: onEachFeature
+                    }).addTo(map);
+  });
+
+ {% endfor %}
+
+</script>
+</div>

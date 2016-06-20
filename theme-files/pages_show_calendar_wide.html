@@ -1,0 +1,83 @@
+<div class="content-panel panel mobile-wide">
+
+  {% include "headline" %}
+
+    {{ page.calendar.content }}
+    <p>{% if page.calendar.allow_user_submitted? %}<a href="{{ page.calendar.new_event_url }}">Click here to host your own event!</a>{% endif %}</p>
+    <div id="calendar"></div>
+  {% if page.calendar.events_upcoming.size > 0 %}
+    <h2>Upcoming events:</h2>
+    {% for event in page.calendar.events_upcoming %} {% include "event" %}
+    <hr>
+    {% endfor %}
+{% endif %}
+    <div class="text-center">
+      <ul class="pagination">{% assign x = page.calendar.events_upcoming | paginate, , '&laquo;', '&raquo;' %} {% assign y = x | replace:'<a ','<li><a' | replace:'span','li' | replace:'class="current">','class="disabled"><a href="#">'%}
+        {{ y | replace:'<div>','' | replace:'</div>','' | replace:'&nbsp;&nbsp;','' }}
+        </ul>
+        </div>
+
+
+
+      <script>
+
+        $(document).ready(function() {
+
+          var date = new Date();
+          var d = date.getDate();
+          var m = date.setMonth(date.getMonth() - 1);
+          var y = date.getFullYear();
+
+          $('#calendar').fullCalendar({
+            header: {
+              left: 'prev,next today',
+              center: 'title',
+              right: 'month,agendaWeek,agendaDay'
+            },
+            editable: false,
+            events: [
+
+              {% for event in page.calendar.events_past %}
+              {% assign y = event.event.local_start_at | date: '%Y' %}
+              {% assign m = event.event.local_start_at | date: '%m' | minus:1 %}
+              {% assign d = event.event.local_start_at | date: '%d' %}
+
+
+
+
+              {
+              title: "{{ event.name }}",
+              url: '{{ event.url }}',
+              start: new Date({{ y}},{{m}},{{d}}, {{ event.event.local_start_at | date: '%H'  }}   ),
+              allDay: false
+
+              }
+
+              ,{% endfor %}
+
+              {% for event in page.calendar.events_upcoming_all %}
+              {% assign y = event.event.local_start_at | date: '%Y' %}
+              {% assign m = event.event.local_start_at | date: '%m' | minus:1 %}
+              {% assign d = event.event.local_start_at | date: '%d' %}
+
+
+
+
+              {
+              title: "{{ event.name }}",
+              url: '{{ event.url }}',
+              start: new Date({{ y}},{{m}},{{d}}, {{ event.event.local_start_at | date: '%H'  }}   ),
+              allDay: false
+
+              }
+
+              {% if forloop.last? %}{% else %},{% endif %}
+
+              {% endfor %}
+            ]
+          });
+
+        });
+
+      </script>
+</div>

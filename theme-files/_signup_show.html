@@ -1,0 +1,22 @@
+
+
+<div class="media">
+  <a class="pull-left" href="{{ signup.profile_url }}">
+    <img class="media-object" src="{% if signup.has_facebook_info? %}http://graph.facebook.com/{{ signup.facebook_uid }}/picture?width=73&height=73{% else %}{{ signup.profile_image_url }}{% endif %}" alt="{{ signup.published_name }}">
+  </a>
+  <div class="media-body">
+    <h4 class="media-heading">{{ signup.published_name_linked }}</h4>
+    <span><i class="icon icon-coins"></i> {{ signup.capital_amount_format }}</span><br>
+      {% if signup.has_facebook_info? %}
+      <span><i class="icon icon-facebook"></i> <a href="{{ signup.facebook_profile_url }}">{{ signup.facebook_profile_url_path }}</a></span><br>
+      {% endif %}  
+      {% if signup.has_twitter_info? %}
+      <span><i class="icon icon-twitter"></i> <a href="{{ signup.twitter_profile_url }}">@{{ signup.twitter_login }}</a></span><br>
+      {% endif %}
+      
+      {% include "signup_follow" with signup %}
+
+  </div>
+</div>
+
+

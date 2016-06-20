@@ -1,0 +1,28 @@
+{% if page.features_count > 0 %}
+
+{% if page.features.size > 0 %}
+<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+  
+  <div class="carousel-inner">
+    {% for feature in page.features %}
+    <div class="item {% if forloop.index == 1 %}active{%endif%}">
+      <img src="{{ feature.image_url }}" alt="{{ feature.name }}">
+      <div class="carousel-caption">
+        <h1>{{ feature.name }}</h1>
+        <p>{{ feature.headline }}</p>
+        <a class="btn btn-primary" href="{{ feature.page.url }}">Learn More</a>
+      </div>
+    </div>
+    {% endfor %}  
+  </div>
+  
+  <!-- Controls -->
+  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left"></span>
+  </a>
+  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right"></span>
+  </a>
+</div>
+{% endif %}
+{% endif %}

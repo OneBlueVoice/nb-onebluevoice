@@ -1,0 +1,22 @@
+{% if request.logged_in? or request.sorta_logged_in? %}
+{% else %}
+<div id="contact">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h2>Sign up for email updates:</h2>
+      </div>
+      <div class="col-md-6">
+        {% form_for signup %}
+        
+        <div class="input-append row-fluid">
+          {% email_field "email", class:"" placeholder="Email Address" %}
+          
+          {% submit_tag "Let's Go!", class:"btn btn-success" %}
+        </div>
+        {% endform_for %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}

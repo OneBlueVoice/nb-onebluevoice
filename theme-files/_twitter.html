@@ -1,0 +1,13 @@
+<section class="{% if sidebar %}twitter-sidebar{% else %}twitter-slider{% endif %} ">
+	{% assign twitter = page.excerpt %}
+  {% if sidebar %}
+    <h2 class="widget-title">
+      Twitter
+    </h2>
+  {% else %}
+    <i class="icon icon-twitter"></i>
+  {% endif %}
+  <div id="tweets" class="tweets-feed" data-widget-id="{{twitter}}">
+
+  </div>
+</section>

@@ -1,0 +1,262 @@
+@import "constants";
+@import "paper_variables";
+@import "bootstrap";
+@import "paper";
+@import "shadows";
+
+$margin-width: 6%;
+$margin-thin-width: 3% 6%;
+
+body {
+  font-size: 16px;
+  background-color: $gray-lighter;
+}
+img {
+  height: auto;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.btn {
+  line-height: $btn-height;
+  height: $btn-height;
+  min-width: 64px;
+}
+.btn-lg {
+  height: auto;
+}
+
+a.btn-block {
+  margin-bottom: 10px;
+}
+
+#header {
+  background-color: $brand-primary;
+  background-size: cover;
+  background-position: center;
+  height: 40vh;
+  min-height: 300px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.main-content {
+  position: relative;
+  padding-top: 150px;
+  padding-bottom: 100px;
+}
+
+@media (max-width: 767px) {
+  #header {
+    min-height: 180px;
+    &.with-image {
+      min-height: 300px;
+    }
+  }
+  .main-content {
+    padding-top: 70px;
+  }
+  #header.with-image + .main-content {
+    padding-top: 150px;
+  }
+}
+
+.content-panel {
+  padding: $margin-width;
+  overflow: hidden;
+}
+
+.share-panel {
+  padding: $margin-thin-width;
+}
+
+.sidebar-panel {
+  padding: 25px;
+  overflow: hidden;
+}
+
+.card-panel {
+  overflow: hidden;
+  .image-container {
+    padding-bottom: 60%;
+    overflow: hidden;
+    position: relative;
+    img {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      -webkit-transform: translateY(-50%);
+    }
+  }
+  .card-content {
+    padding: 15px 30px;
+  }
+  .card-footer {
+    .meta {
+      font-weight: bold;
+      color: $gray-light;
+    }
+    border-top: 1px solid rgba(160, 160, 160, 0.2);
+    padding: 15px 30px;
+  }
+}
+
+.subhead {
+  font-size: 1.5em;
+  margin-top: 0.6em;
+  margin-bottom: 0.2em;
+}
+
+
+.text-white {
+  color: #fff !important;
+}
+
+.page-name {
+  color: #fff;
+  @include material_text_shadow(2);
+  font-size: 2em;
+  padding: 0 $margin-width;
+}
+
+
+.btn-clear {
+  background: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none;
+  @include material_text_shadow(2);
+  &:hover {
+    color: $secondary;
+  }
+}
+
+.btn-clear.btn-white {
+  color: #fff;
+  &:hover {
+    color: $secondary;
+  }
+}
+
+
+.padded-form {
+  padding: 5%;
+}
+
+.panel-danger {
+  @include material_box_shadow(2);
+}
+
+.btn.btn-default {
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  font-weight: bold;
+  color: $brand-primary;
+  // &:hover {
+  // //   background-color: $brand-primary;
+  // //   color: #fff;
+  //   -webkit-box-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+  //   box-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+  // }
+}
+
+.btn.btn-white {
+  background-color: #fff;
+  font-weight: bold;
+  border-color: transparent;
+}
+
+.secondary-link {
+  text-transform: uppercase;
+  font-weight: bold;
+  color: $brand-success;
+  &:hover {
+    color: darken($brand-success, 9.5%);
+  }
+}
+
+.btn.btn-flat {
+  border: none;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  background: none;
+  font-weight: 500;
+  color: #000;
+  margin-left: -8px;
+  &.btn-primary {
+    color: $brand-primary;
+  }
+  &.btn-secondary {
+    color: $brand-success;
+  }
+  &:hover {
+    background-color: #E8E8E8;
+  }
+  &:active {
+    background-color: darken(#E8E8E8, 10%);
+  }
+}
+
+.mini-container {
+  max-width: 700px;
+  padding: 0 15px;
+  margin: 0 auto;
+}
+.container .mini-container {
+  padding: 0;
+}
+
+// splash footer
+#ft {
+  background: #fff;
+  text-align: center;
+  padding: 15px;
+}
+#splash-container {
+  input {
+    margin-bottom: 5px;
+  }
+}
+
+// Mobile menu slideout prefix fix
+nav#drawer-nav {
+  -webkit-transform: translateX(-260px);
+  -moz-transform: translateX(-260px);
+  -ms-transform: translateX(-260px);
+  -o-transform: translateX(-260px);
+  -webkit-transition: transform 0.4s;
+  -moz-transition: transform 0.4s;
+  -o-transition: transform 0.4s;
+  &.is-open {
+    -webkit-transform: translateX(0px);
+    -moz-transform: translateX(0px);
+    -ms-transform: translateX(0px);
+    -o-transform: translateX(0px);
+  }
+}
+
+@mixin paper-btn($class, $color) {
+  .btn-#{$class} {
+    @include button-variant(#fff, $color, $btn-default-border);
+  }
+  @include btn($class, $color);
+}
+
+@include paper-btn(tertiary,$gray);
+@include paper-btn(fb, $facebook-color);
+@include paper-btn(tw, $twitter-color);
+@include paper-btn(ig, $instagram-color);
+
+
+
+
+@import "vm_navs";
+@import "home_blocks";
+@import "microsite";
+@import "interior";
+@import "slide_out";

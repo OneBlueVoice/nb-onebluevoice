@@ -1,0 +1,70 @@
+{% if request.current_signup.crawling_twitter? %}
+
+<div class="alert alert-success"><img src="{{ "bert-loader-small.gif" | asset_path }}" border="0"> Checking Twitter for people who have joined...
+  {{ request.current_signup.crawling_twitter_status_url | auto_refresh }}
+</div>
+
+{% else %}
+
+
+
+{% if request.current_signup.followings_count_from_twitter == 0 %}
+<div class="alert alert-success">None of the people you follow on Twitter have joined yet.</div>   
+{% else %}
+<div class="alert alert-success"><b>{{ request.current_signup.followings_count_from_twitter }}</b> people you follow on Twitter have joined.</div>  
+{% endif %}
+
+
+<div class="row">
+  {% if request.current_signup.followings_count_from_twitter > 6 %}
+  <div class="col-md-12"><p>Here are a few of them:</p></div>
+  {% endif %}
+  {% for signup in request.current_signup.followings_from_twitter %}
+  <div class="col-md-4">
+    <div class="thumbnail text-center">
+      <a href="{{ signup.profile_url }}">
+        <img src="{% if signup.has_facebook_info? %}http://graph.facebook.com/{{ signup.facebook_uid }}/picture?width=100&height=100{% else %}{{ signup.profile_image_url }}{% endif %}" alt="{{ signup.published_name }}">
+      </a>
+      <div class="caption">
+        <span>{{ signup.published_name }}</span>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  
+</div>
+
+
+
+{% if request.current_signup.followers_count_from_twitter == 0 %}
+<div class="alert alert-success">None of your Twitter followers have joined yet.</div>   
+{% else %}
+<div class="alert alert-success"><b>{{ request.current_signup.followers_count_from_twitter }}</b> of your Twitter followers have already joined.</div>  
+{% endif %}
+
+{% if request.current_signup.followers_count_from_twitter > 6 %}
+<div class="col-md-12"><p>Here are a few of them:</p></div>
+{% endif %}
+
+
+
+{% for signup in request.current_signup.followers_from_twitter %}
+<div class="col-md-4">
+  <div class="thumbnail text-center">
+    <a href="{{ signup.profile_url }}">
+      <img src="{% if signup.has_facebook_info? %}http://graph.facebook.com/{{ signup.facebook_uid }}/picture?width=100&height=100{% else %}{{ signup.profile_image_url }}{% endif %}" alt="{{ signup.published_name }}">
+    </a>
+    <div class="caption">
+      <span>{{ signup.published_name }}</span>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+
+{% endif %}
+
+
+
+
+

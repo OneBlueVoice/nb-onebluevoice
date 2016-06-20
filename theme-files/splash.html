@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]--><!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"><![endif]--><!--[if IE 8]><html class="no-js lt-ie9"><![endif]--><!--[if gt IE 8]><!--><html class="no-js"> <!--<![endif]-->
+<head><!--
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMI+++++MMMMMMMMM++++++MMMMMMMMMM
+MMMMMMMMMM+====+MMMMMMM7=====MMMMMMMMMMM
+MMMMMMMMMMM=====7MMMMMM=====$MMMMMMMMMMM
+MMMMMMMMMMM?=====MMMMM?=====MMMMMMMMMMMM
+MMMMMMMMMMMM=====?MMMM=====MMMMMMMMMMMMM
+MMMMMMMMMMMM8=====MMM+====+MMMMMMMMMMMMM
+MMMMMMMMMMMMM?====+MO=====MMMMMMMMMMMMMM
+MMMMMMMMMMMMMM=====M=====MMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMZ=========+MMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMM+========MMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMM=======MMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMM7=====+MMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMM?????MMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+v is for victory. v is for veracity. veracitymedia.com -->
+  <!--init-->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>{{ page_title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!--css-->
+  <link rel="stylesheet" href="//oss.maxcdn.com/rrssb/1.6.0/css/rrssb.css">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.3.1/fullcalendar.css"> -->
+
+  <!-- flexslider -->
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/flexslider/2.3.0/flexslider-min.css">
+
+
+  <!-- BOOTSTRAP -->
+  <!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"> -->
+
+  <!-- PAPER BOOTSTRAP -->
+  <!-- <link rel="stylesheet" href="bootstrap_grid.css"> -->
+
+  <link rel="stylesheet" href="splash.scss">
+  <link rel="stylesheet" href="updates.css"><!--cross-site styling, e.g. calendars, share buttons, twitter buttons, etc.-->
+  <link rel="stylesheet" href="custom.scss"><!-- site-specific styling-->
+
+  <link rel="stylesheet" href="vm-icons.css">
+
+  <!--meta-->
+  <meta name="description" content="{{ page.excerpt }}">
+  <meta name="keywords" content="{% for tag in page.tags %}{{ tag.name }} {% endfor %}">
+  <meta name="author" content="{{ page.author.published_name}}">
+  <link rel=”author” href="**FILL THIS IN*** https://plus.google.com/"/>
+  <meta property="og:title" content="{{ page_title }}"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="{% if page.meta_image_url contains "missing" %}{{ site.meta_image_url }}{% else %}{{ page.meta_image_url }}{% endif %}"/>
+  <meta property="og:url" content="{{ page.full_url }}"/>
+  <meta property="og:site_name" content="{{ site.long_name }}"/>
+  <meta property="og:description" content="{{ page.excerpt }}"/>
+  <meta property="fb:admins" content="**FILL THIS IN***"/>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="{{ site.full_url }}">
+  <meta name="twitter:creator" content="{{ site.broadcaster.twitter_profile_url }}">
+  <meta name="twitter:title" content="{{ page_title }}">
+  <meta name="twitter:description" content="{{ page.excerpt }}">
+  <meta name="twitter:image" content="{% if page.meta_image_url contains "missing" %}{{ site.meta_image_url }}{% else %}{{ page.meta_image_url }}{% endif %}">
+  <link rel="apple-touch-icon" href="{{ site.meta_image_large_url }}" />
+  <link rel="apple-touch-icon" sizes="72x72" href="{{ site.meta_image_large_url }}" />
+  <link rel="apple-touch-icon" sizes="114x114" href="{{ site.meta_image_large_url }}" />
+  <link rel="apple-touch-icon" sizes="144x144" href="{{ site.meta_image_large_url }}" />
+
+  <!--modernizr+nb-->
+  {{ content_for_header }}
+  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.3/jquery.backstretch.min.js"></script>
+  <script>
+    $( document ).ready(function() {
+      $.backstretch([
+        "{{ site.background_image_url }}"
+      ], {duration: 3000, fade: 750, centeredY: true});
+    });
+  </script>
+
+</head>
+
+<body>
+  <div class="wrapper">
+
+    <div class="col-md-6 col-md-offset-3 col-xs-10 col-xs-offset-1 main-logo" style="margin-top:3%;">
+      <nav class="logo-link text-center">
+        <a href="{{ site.full_url }}" class="logo"><img src="{{ site.meta_image_url }}"></a>
+      </nav>
+
+    </div>
+
+<div class="clearfix"></div>
+
+    <div class="col-md-6 col-md-offset-3 well" id="maincontainer">
+      <div class="wrap">
+        {{ page.signup.content }}
+        {% form_for signup %}
+
+        <div class="row">
+          <div class="col-md-6  col-xs-12">{% text_field "email", class:"form-control" placeholder="Email Address" %}</div>
+          <div class="col-md-3 col-xs-12">{% text_field "submitted_address", class:"form-control" placeholder="Zip Code" %}</div>
+          <div class="col-md-3 col-xs-12">{% submit_tag "Let's Go!", class:"btn btn-block btn-primary" %}</div>
+        </div>
+        {% endform_for %}
+        <sub><a href="/">Click here to continue to the website</a></sub>
+      </div>
+    </div>
+    <div class="push"></div>
+  </div>
+
+  <footer id="ft" class="footer">
+    <div class="wrap module">
+      <div class="disclaimer-license">
+        <div class="disclaimer">{{ site.footer_content }}</div>
+      </div>
+    </div>
+  </footer>
+
+  {{ content_for_footer }}
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+  <script src="//oss.maxcdn.com/rrssb/1.6.0/js/rrssb.min.js"></script>
+
+</body>
+</html>

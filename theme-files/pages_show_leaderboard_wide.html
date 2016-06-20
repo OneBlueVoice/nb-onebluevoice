@@ -1,0 +1,51 @@
+    {{ page.leaderboard.content }}
+
+
+    {% for leaderboard in page.page_leaderboards %}
+    {% if leaderboard.display_number_results > 0 %}
+    <h3>Top {{ leaderboard.display_number_results }} {{ leaderboard.display_name }}</h3>
+
+    {% if leaderboard.has_goal? %}
+    <script>$(document).ready(function(){
+  var goal = parseInt("{{ leaderboard.goal |remove:'+' }}".replace(/\D/g, ''));
+  total = parseInt("{{ leaderboard.total |remove:'+'}}".replace(/\D/g, ''));
+  $('#{{forloop.index}}goalbar').goalProgress({
+
+    goalAmount: goal ,
+    currentAmount: total,
+    textBefore: '',
+    textAfter: ' {{ leaderboard.goal_name_short }}'
+  });
+});</script>
+
+    <div id="{{forloop.index}}goalbar"></div>
+
+    {% endif %}
+
+
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Profile Pic</th>
+            <th>Name</th>
+            <th>Total {{ leaderboard.goal_name }}</th>
+          </tr>
+        </thead>
+
+
+
+        {% for entry in leaderboard.entries %}
+        <tr>
+          <td>{{ entry.position }}</td>
+          <td>{{ entry.signup.profile_image }}</td>
+          <td>{{ entry.signup.published_name_linked }}</td>
+          <td>{{ entry.total }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+    {% endif %}
+
+    {% endfor %}

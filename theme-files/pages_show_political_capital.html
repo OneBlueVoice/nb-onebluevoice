@@ -1,0 +1,55 @@
+<div class="content-panel panel">
+    <div class="btn-group btn-group-justified">
+      <div class="btn-group">
+        <button type="button" class="btn btn-default"><i class="icon icon-coin"></i> Total: {{ request.current_signup.capital_amount_format }}</button>
+      </div>
+      <div class="btn-group">
+        <button type="button" class="btn btn-default"><i class="icon icon-coin"></i> Earned: {{ request.current_signup.received_capital_amount_format }}</button>
+      </div>
+      <div class="btn-group">
+        <button type="button" class="btn btn-default"><i class="icon icon-coin"></i> Spent: {{ request.current_signup.spent_capital_amount_format }}</button>
+      </div>
+    </div>
+
+
+
+    {% if request.current_signup.capitals.size > 0 %}
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+
+        {% for capital in request.current_signup.capitals %}
+        {% if capital.receiver_id == request.current_signup.id %}
+
+        <tr>
+          <td>{{ capital.activity.show_oneliner_view }}</td>
+          <td>{{ capital.amount_format }}</td>
+          <td>{{ capital.created_at | date_to_string }}</td>
+        </tr>
+        {% elsif capital.spender_id == request.current_signup.id %}
+        <tr>
+          <td>{{ capital.activity.show_oneliner_view }}</td>
+          <td>{{ capital.amount_spent_format }}</td>
+          <td>{{ capital.created_at | date_to_string }}</td>
+        </tr>
+        {% endif %}
+
+        {% endfor %}
+      </table>
+    </div>
+    <div class="text-center">
+      <ul class="pagination">{% assign x = request.current_signup.capitals | paginate, , '&laquo;', '&raquo;'  %}
+        {% assign y = x  | replace:'<a','<li><a' | replace:'span','li' | replace:'class="current">','class="disabled"><a href="#">'%}
+        {{ y | replace:'<div>','' | replace:'</div>','' | replace:'&nbsp;&nbsp;','' }}
+        </ul>
+        </div>
+        {% endif %}
+
+
+</div>

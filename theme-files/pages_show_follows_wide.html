@@ -1,0 +1,44 @@
+<div class="content-panel panel">
+
+    <div class="alert alert-primary">You are following <b>{{ request.current_signup.followings_count }}</b> people.</div>
+    <div class="row">
+      {% if site.has_friends_page? %}
+      {% if request.current_signup.has_facebook_authorization? == false %}
+      <div class="col-md-6">
+        <h2>You haven't connected your Facebook account</h2>
+
+        <a href="{{ request.facebook_connect_url }}">Click here to connect your Facebook account and see who follows you.</a>
+      </div>
+
+      {% endif %}
+
+      {% if request.current_signup.has_twitter_authorization? == false %}
+
+      <div class="col-md-6">
+        <h2>You haven't connected your Twitter account</h2>
+
+        <a href="{{ request.twitter_connect_url }}">Click here to connect your Twitter account and see who follows you.</a>
+      </div>
+
+      {% endif %}
+
+      {% endif %}
+
+
+
+      {% for following in request.current_signup.followings %}
+      {% assign signup = following.following %}
+      <div class="col-md-6">
+        {% include "signup_show" %}
+        <br>
+      </div>
+      {% endfor %}
+    </div>
+        <div class="text-center">
+    <ul class="pagination">{% assign x = request.current_signup.followings | paginate, , '&laquo;', '&raquo;'  %}
+    {% assign y = x  | replace:'<a','<li><a' | replace:'span','li' | replace:'class="current">','class="disabled"><a href="#">'%}
+    {{ y | replace:'<div>','' | replace:'</div>','' | replace:'&nbsp;&nbsp;','' }}
+    </ul>
+  </div>
+
+</div>

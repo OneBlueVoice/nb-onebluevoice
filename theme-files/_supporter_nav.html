@@ -1,0 +1,32 @@
+<div class="list-group">
+  <div class="list-group-item list-group-item-info">Helpful links:</div>
+  {% if request.current_signup.is_profile_published? %}<a class="list-group-item" href="{{ request.current_signup.profile_url }}">Public profile</a>{% endif %}
+  <a class="list-group-item" href="{{ site.admin_dashboard_url }}"> NationBuilder control panel</a>
+  <a class="list-group-item" href="{{ request.current_signup.settings_url }}">Settings</a>
+  <a class="list-group-item" href="{{ page.admin_edit_url }}">Edit this page</a>
+  <a class="list-group-item" href="{{ site.edit_pages_url }}">Your pages</a>
+  <a class="list-group-item" href="{{ request.current_signup.logout_url }}">Sign out</a>
+</div>
+{% if site.supporter_pages %}
+<div class="list-group">
+  <div class="list-group-item list-group-item-info">Supporter Nav Pages:</div>
+  {% for child in site.supporter_pages %}
+  <a class="list-group-item" href="{{ child.url }}">{{ child.name }}</a>
+  {% endfor %}
+</div>     
+{% endif %}
+
+
+
+{% if request.current_signup.has_parent? %}
+<div class="list-group">
+  <div class="list-group-item list-group-item-info">Your point person:</div>
+  <div class="list-group-item ">{{ request.current_signup.parent.profile_image }} <h4 style="display: inline;">{{ request.current_signup.parent.published_name_linked }}</h4></div>
+  <div class="list-group-item">
+    {% if request.current_signup.parent.has_bio? %}{{ request.current_signup.parent.bio }}<br>{% endif %}
+    {% if request.current_signup.parent.has_email? %}
+    <a href="mailto:{{ request.current_signup.parent.email }}">Send {{ request.current_signup.parent.first_name }} an email</a>{% endif %}
+  </div>
+</div>
+
+{% endif %}

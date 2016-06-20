@@ -1,0 +1,162 @@
+<div class="row">
+  <div class="col-md-6">
+    <div class="content-panel panel">
+
+    {{ page.moneybomb.content }}
+    {% if page.moneybomb.has_amount_goal? %}
+      <p class="lead">We're {{ page.moneybomb.percent_of_amount_goal |times: 100}}% to our goal--help us get there?</p>
+      <div class="progress">
+        <div class="progress-bar" role="progressbar" aria-valuenow="{{ page.pledges_amount_in_cents }}" aria-valuemin="0" aria-valuemax="{{ page.donation.amount_goal_in_cents  }}" style="width: {{ page.vote_pledge.percent_of_yes_goal |times: 100}}%;">
+          <span class="sr-only">{{ page.moneybomb.percent_of_amount_goal | times: 100}}% complete</span>
+        </div>
+      </div>
+    {% elsif page.moneybomb.has_pledger_goal? %}
+    <p class="lead">We're {{ page.moneybomb.percent_of_pledger_goal |times: 100}}% to our goal--help us get there?</p>
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" aria-valuenow="{{ page.pledges_count }}" aria-valuemin="0" aria-valuemax="{{ page.donation.amount_goal_in_cents  }}" style="width: {{ page.vote_pledge.percent_of_yes_goal |times: 100}}%;">
+        <span class="sr-only">{{ page.moneybomb.percent_of_pledger_goal | times: 100}}% complete</span>
+      </div>
+    </div>
+    {% endif %}
+    </div>
+
+  </div>
+
+
+  <div class="col-md-6">
+    <div class="content-panel panel">
+
+    {% if page.moneybomb.is_pledged? %}
+    {% form_for pledge %}
+      <h2>Thank you for pledging!</h2>
+      {% error_messages_for pledges %}
+      <div class="form-group">
+        <label for="pledge_content">Change your pledge amount</label>
+        <br>
+        {% for amount in page.moneybomb.amounts %}
+        <label class="radio-inline">
+          <input type="radio" name="pledge[amount_option]" class="pledge_amount_option" value="{{ amount }}"> ${{ amount }}
+        </label>
+        {% endfor %}
+      </div>
+      <script>
+        $('.pledge_amount_option').on('click', function() {$('#pledge_amount').val(''); });
+        $('#pledge_amount').on('click', function() {$('.pledge_amount_option').prop('checked', false); });
+      </script>
+      <div class="input-group form-group">
+        <span class="input-group-addon">
+          Other:
+        </span>
+        <input type="text" name="pledge[amount]" id="pledge_amount" class="form-control">
+      </div>
+
+      {% submit_tag "Save pledge", class:"btn btn-primary btn-block" %}
+      <small>{{ page.moneybomb.current_pledge | delete_link message: "Cancel pledge" }}
+      </small>
+
+    {% endform_for %}
+    {% else %}
+
+
+    {% form_for pledge %}
+
+      <h2>Make your pledge!</h2>
+      <p>How much will you pledge to donate{% if page.moneybomb.has_start_at? %} when the moneybomb starts on {{ page.moneybomb.local_start_at | moneybomb_time }}{% endif %}?</p>
+      {% error_messages_for pledge %}
+      <div class="form-group">
+        <label for="pledge_content">Pledge amount</label>
+        <br>
+        {% for amount in page.moneybomb.amounts %}
+        <label class="radio-inline">
+          <input type="radio" name="pledge[amount_option]" class="pledge_amount_option" value="{{ amount }}"> ${{ amount }}
+        </label>
+        {% endfor %}
+      </div>
+      <script>
+        $('.pledge_amount_option').on('click', function() {$('#pledge_amount').val(''); });
+        $('#pledge_amount').on('click', function() {$('.pledge_amount_option').prop('checked', false); });
+      </script>
+      <div class="input-group form-group">
+        <span class="input-group-addon">
+          Other:
+        </span>
+        <input type="text" name="pledge[amount]" id="pledge_amount" class="form-control">
+      </div>
+
+
+      {% if request.sorta_logged_in? == false or request.current_signup.has_name? == false %}
+      <div class="form-group">
+        <label for="pledge_first_name">First Name</label>
+        {% text_field "first_name", class:"form-control" %}
+      </div>
+
+      <div class="form-group">
+        <label for="pledge_last_name">Last Name</label>
+        {% text_field "last_name", class:"form-control" %}
+      </div>
+      {% endif %}
+
+      {% if request.sorta_logged_in? == false %}
+      <div class="form-group">
+        <label for="pledge_email">Email</label>
+        {% email_field "email", class:"form-control" %}
+      </div>
+      {% endif %}
+
+      {% if site.ask_for_mobiles? %}
+      <div class="form-group">
+        <label for="pledge_mobile_number">Phone</label>
+        {% phone_field "mobile_number", class:"form-control" %}
+      </div>
+
+      {% endif %}
+
+
+      <div class="form-group"><div class="checkbox">
+        <label for="pledge_email_opt_in">
+          {% check_box "email_opt_in", class:"checkbox" %} Send me email updates
+        </label>
+        </div>
+      </div>
+
+      {% if site.ask_for_mobiles? %}
+      <div class="form-group"><div class="checkbox">
+        <label for="pledge_mobile_opt_in">
+          {% check_box "mobile_opt_in", class:"checkbox" %} Send me text messages
+        </label>
+        </div>
+      </div>
+      {% endif %}
+
+
+      {% if request.sorta_logged_in? == false or request.current_signup.has_full_address? == false %}
+      <div class="form-group">
+        <label for="pledge_submitted_address">Address (Street, City, State, Zip code)</label>
+        {% text_field "submitted_address", class:"form-control" %}
+      </div>
+      {% endif %}
+
+      {% if request.sorta_logged_in? == false or request.current_signup.is_volunteer == false %}
+      <div class="form-group">
+        <div class="checkbox">
+          <label for="pledge_is_volunteer">
+            {% check_box "is_volunteer", class:"checkbox" %} I want to volunteer
+          </label>
+        </div>
+      </div>
+      {% endif %}
+
+
+      {% submit_tag "Add pledge", class:"btn btn-primary btn-block" %}
+
+    {% endform_for %}
+
+    {% if page.text_keyword_instructions.size > 0 %}
+    You can also {{ page.text_keyword_instructions }}
+
+    {% endif %}
+    {% endif %}
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,2 @@
+<div id="header" style="{% if page.meta_image_url.size > 0%} {% unless page.meta_image_url contains "missing" %}background: url('{{ page.meta_image_url }}'); background-size: cover;background-position: center;{% endunless %}{% endif %}" class="{% if page.meta_image_url.size > 0%} {% unless page.meta_image_url contains "missing" %}with-image{% endunless %}{% endif %}">
+</div>

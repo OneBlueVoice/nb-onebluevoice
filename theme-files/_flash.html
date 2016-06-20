@@ -1,0 +1,11 @@
+{% if flash.message.size >1 %}
+{% if flash.key == "error" %}
+{% assign notif = "danger" %}
+{% else %}
+{% assign notif = "info" %}
+{% endif %}
+<div class="alert alert-{{ notif }} alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  {{ flash.message }}
+</div>
+{% endif %}

@@ -1,0 +1,15 @@
+{% if request.logged_in? %}
+{% if signup_follow.id != request.current_signup.id %}
+<span>
+  {% if signup_follow.following_ids contains request.current_signup.id %}
+  <i class="icon icon-user-plus"></i>
+  {% endif %}
+  
+  {% if request.current_signup.following_ids contains signup_follow.id %}
+  <span>You are following this person. <a href="{{ signup_follow.unfollow_url }}" class="delete">(unfollow)</a></span>
+  {% else %}
+  <span><a href="{{ signup_follow.follow_url }}" class="post">Follow this person.</a></span>
+  {% endif %}
+</span><br>
+{% endif %}
+{% endif %}

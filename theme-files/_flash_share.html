@@ -1,0 +1,50 @@
+<div class="panel content-panel flash-share">
+
+<h4 class="modal-title" id="myModalLabel">
+  {% if flash.message.size >1 %}{{ flash.message }}{% else %}Share with your friends!{% endif %}
+</h4>
+
+
+{% form_for face_tweet %}
+  {% assign post = flash.page %}
+  {% hidden_field_tag "face_tweet[page_id]", flash.page_id %}
+  {% error_messages_for face_tweet %}
+  <div class="previewPosted" style="">
+    <div class="previewTextPosted">{% text_area "content", class:"defaultpost" %}
+    </div>
+    {% if post.meta_image_url %}
+    <div class="previewImagesPosted">
+      <div class="previewImagePosted">
+        <img src="{{ post.meta_image_url }}" class="imgIframeF" style="height: auto; float: left;max-width: 100%;">
+      </div>
+    </div>
+    {% endif %}
+    <div class="previewContentPosted">
+      <div class="previewTitlePosted">
+        <a href="{{ post.full_url }}" target="_blank">
+          <span id="previewSpanTitle">{{ post.headline }}</span>
+        </a></div><div class="previewUrlPosted">{{ post.full_url }}</div>
+      <div class="previewDescriptionPosted">
+        <span id="previewSpanDescription">{{ post.excerpt }}</span>
+
+
+      </div>
+    </div>
+    <div style="clear: both">
+    </div>
+  </div>
+  <div class="form-inline">
+    <div class="checkbox">
+      <label>
+        {% check_box "is_facebook", class:"checkbox" %} Post to Facebook
+      </label>
+    </div>
+    <div class="checkbox">
+      <label>
+        {% check_box "is_twitter", class:"checkbox" %} Post to Twitter (<span id="face_tweet_content_charsleft" class="badge"></span> chars left)
+      </label>
+    </div>
+    {% submit_tag "Post your message", class:"postPreviewButton" %}
+  </div>
+{% endform_for %}
+</div>

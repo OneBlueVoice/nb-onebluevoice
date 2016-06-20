@@ -1,0 +1,21 @@
+<div class="sharebut"></div>
+
+<script>
+$(document).ready(function() {
+  $('.sharebut').share({
+    facebook: {
+      name: '{{ page.headline | escape_once}}',
+      link: '{{ page.full_url }}',
+      image: '{{ page.meta_image_url }}',
+      text: '{{ page.excerpt | escape_once}}'
+    },
+
+    twitter: {
+      text: '{{ page.excerpt |escape_once }}',
+      link: '{{ page.full_url }}'
+    },
+
+    gplus: {link: '{{ page.full_url }}'}
+     
+     })
+   });</script>

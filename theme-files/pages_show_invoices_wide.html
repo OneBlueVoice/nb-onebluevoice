@@ -1,0 +1,219 @@
+    {% if page.invoice.content.size > 0 %}
+    {{ page.invoice.content }}
+    {% endif %}
+
+    {% if outstanding_invoices.size == 0 %}
+    <h2>You have no outstanding invoices.</h2>
+    {% else %}
+    <h2>Outstanding Invoices:</h2>
+    {% for invoice in outstanding_invoices %}
+    <h3>{{ invoice.name }}</h3> (<a href="{{ invoice.remove_from_order_url }}">Remove</a>)
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Item #</th>
+            <th>Quantity</th>
+            <th>Name</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+
+        {% for item in invoice.items %}
+        <tr>
+          <td>{{ forloop.index}}</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.amount }}</td>
+        </tr>
+        {% endfor %}
+
+        <thead>
+          <tr class="active">
+            <th>Total:</th>
+            <th></th>
+            <th></th>
+            <th>{{ invoice.amount_due_format }}</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <hr>
+
+    {% form_for invoice_payment %}
+    <h2>Pay an invoice:</h2>
+    {% error_messages_for invoice_payment %}
+
+    {% if page.invoice.merchant_account.is_test_mode? %}
+    <div class="alert alert-danger">Testing mode:Transactions will not be processed. Use your regular credit card to test, you will not actually be charged.</div>
+    {% endif %}
+    <div class="row">
+      <div class="col-md-6">
+        {% if outstanding_invoices.size > 1 %}
+        <div class="form-group"><label for="invoice_payment_invoice_id">Invoice to pay</label>{% collection_select "invoice_id", outstanding_invoices, "id", "name", class:"form-control" %}</div>
+        {% else %}
+        <input type="hidden" name="invoice_payment[invoice_id]" id="invoice_payment_invoice_id" value="{{ outstanding_invoices[0].id }}">
+        {% endif %}
+
+
+        <div class="form-group">
+          <label for="invoice_payment_first_name">First Name</label>
+          {% text_field "first_name", class:"form-control" %}
+        </div>
+
+        <div class="form-group">
+          <label for="invoice_payment_last_name">Last Name</label>
+          {% text_field "last_name", class:"form-control" %}
+        </div>
+
+        <div class="form-group">
+          <label for="invoice_payment_billing_address_address1">Address</label>
+          {% text_field "billing_address.address1", class:"form-control" %}
+          {% text_field "billing_address.address2", class:"form-control" %}
+          {% text_field "billing_address.address3", class:"form-control" %}
+        </div>
+
+        <div class="form-group">
+          <label for="invoice_payment_billing_address_city">City</label>
+          {% text_field "billing_address.city", class:"form-control" %}
+        </div>
+
+        <div class="form-group">
+          <label for="invoice_payment_billing_address_state">State</label>
+          {% text_field "billing_address.state", class:"form-control" %}
+        </div>
+
+        <div class="form-group">
+          <label for="invoice_payment_billing_address_zip">Zip Code</label>
+          {% text_field "billing_address.zip", class:"form-control" %}
+
+        </div>
+
+        <div class="form-group">
+          <label for="invoice_payment_billing_address_country_code">Country</label>
+          {% collection_select "billing_address.country_code", page.invoice.countries, "code", "name", class:"form-control" %}
+        </div>
+      </div>
+      <div class="col-md-6">
+
+        <div class="form-group">
+          <label for="invoice_payment_email">Email</label>
+          {% email_field "email", class:"form-control" %}
+        </div>
+
+        <div class="form-group">
+          <label for="invoice_payment_phone">Phone</label>
+          {% phone_field "billing_address.phone_number", class:"form-control" %}
+        </div>
+
+
+
+        {% if page.invoice.merchant_account.is_paypal_express? == false %}
+        <div class="form-group">
+          <label for="invoice_payment_card_number">Credit card number</label>
+          {% text_field "card_number", class:"form-control" %}
+        </div>
+
+
+        <div class="form-group">
+          <label for="invoice_payment_card_number">Credit card number</label>
+          {% text_field "card_number", class:"form-control" %}
+        </div>
+
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="invoice_card_expires_on_1i">Expiration Year</label>
+
+              <select class="form-control" id="invoice_card_expires_on_1i" name="invoice[card_expires_on(1i)]">
+                <option selected="selected" value="2014">2014</option>
+                <option value="2015">2015</option>
+                <option value="2016">2016</option>
+                <option value="2017">2017</option>
+                <option value="2018">2018</option>
+                <option value="2019">2019</option>
+                <option value="2020">2020</option>
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="invoice_card_expires_on_2i">Expiration Month</label>
+              <select class="form-control" id="donation_card_expires_on_2i" name="invoice[card_expires_on(2i)]">
+                <option selected="selected" value="1">1 - January</option>
+                <option value="2">2 - February</option>
+                <option value="3">3 - March</option>
+                <option value="4">4 - April</option>
+                <option value="5">5 - May</option>
+                <option value="6">6 - June</option>
+                <option value="7">7 - July</option>
+                <option value="8">8 - August</option>
+                <option value="9">9 - September</option>
+                <option value="10">10 - October</option>
+                <option value="11">11 - November</option>
+                <option value="12">12 - December</option>
+              </select>
+            </div>
+          </div>
+          <input id="invoice_card_expires_on_3i" name="invoice[card_expires_on(3i)]" type="hidden" value="1">
+
+        </div>
+
+
+        <div class="form-group">
+          <label for="invoice_payment_card_verification">Security code</label>
+          {% text_field "card_verification", class:"form-control" %}
+        </div>
+
+
+        {% endif %}
+
+        {% if page.invoice.merchant_account.is_paypal_express? %}
+        {% submit_tag "Continue to PayPal", class:"btn btn-primary btn-lg btn-block" %}
+        {% else %}
+        {% submit_tag "Process Payment", class:"btn btn-primary btn-lg btn-block" %}
+        {% endif %}
+      </div>
+      {% endform_for %}
+
+
+    </div>
+
+    {% if closed_invoices.size > 0 %}
+    <div class="row">
+      <div class="col-md-12">
+        <h2>Closed Invoices:</h2>
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Invoice #</th>
+                <th>Amount</th>
+                <th>Closed on</th>
+                <th>Receipt</th>
+              </tr>
+            </thead>
+            {% for invoice in closed_invoices %}
+            <tr>
+              <td>{{ invoice.name }}</td>
+              <td>{{ invoice.amount_with_discount_format }}</td>
+              <td>{{ invoice.closed_at | date_to_string }}</td>
+              <td><a href="{{ invoice.pdf_url }}">PDF</a></td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+

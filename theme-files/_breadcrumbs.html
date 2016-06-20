@@ -1,0 +1,12 @@
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  
+  
+  {% for ancestor in page.ancestors %}
+  {% if ancestor.is_homepage? == false %}
+  <li><a href="{{ ancestor.url }}">{{ ancestor.name }}</a></li>
+  {% endif %}
+  {% endfor %}
+  
+  <li class="active" >{{ page.name }}</li> 
+</ol>

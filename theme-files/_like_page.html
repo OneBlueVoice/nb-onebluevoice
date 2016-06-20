@@ -1,0 +1,33 @@
+
+<div class="panel content-panel share-panel">
+
+  <div class="row sharebox">
+    <div class="{% if request.is_sidebar? %} col-md-3{% else %} col-md-5{% endif %}">
+      <h3 class="subhead">Share this!</h3>
+    </div>
+    <div class="{% if request.is_sidebar? %} col-md-9{% else %} col-md-7{% endif %}">
+      <div class="row">
+        <div class="col-sm-4">
+          <a href="mailto:?subject={{ page.headline }}&amp;body={{ page.full_url }}" class="btn btn-block btn-tertiary"><i class="icon icon-envelop"></i> email</a>
+        </div>
+        <div class="col-sm-4">
+          <a href="https://www.facebook.com/sharer/sharer.php?u={{ page.full_url }}" class="popup btn btn-block btn-fb"><i class="icon icon-facebook"></i> facebook</a>
+        </div>
+
+
+      {% if page.excerpt | size > 1 %}
+          {% assign tweettext = page.excerpt %}
+          {% else %}
+          {% if page.headline | size > 1 %}
+          {% assign tweettext = page.headline %}
+          {% else %}
+          {% assign tweettext = page.name %}
+          {% endif %}
+          {% endif %}
+        <div class="col-sm-4">
+          <a href="http://twitter.com/home?status={{ tweettext }}:%20{{ page.full_url }}" class="popup btn-tw btn btn-block"><i class="icon icon-twitter"></i> twitter</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

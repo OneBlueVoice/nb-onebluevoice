@@ -1,0 +1,51 @@
+
+$slider-width: 280px;
+#bottom-slider {
+  position:fixed;
+  bottom: 15px;
+  right: ($slider-width + 10) * -1;
+  width: $slider-width;
+  background-color: #e9eaed;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  .panel-heading {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    font-weight: 600;
+    position: relative;
+  }
+
+  #close-bottom-slider {
+    position: absolute;
+    cursor: pointer;
+    i {
+      line-height: 20px;
+      margin: 0;
+    }
+    line-height: 24px;
+    height: 20px;
+    text-align: center;
+    width: 20px;
+    display: block;
+    border-radius: 10px;
+    top: -8px;
+    left: -8px;
+    color: #fff;
+    background-color: $gray;
+    &:hover {
+      background-color: #4B4B4B;
+    }
+    z-index: 101;
+  }
+
+  z-index: 100;
+  @include material-box-shadow(2);
+
+  .fb-like-box {
+    padding: 0px;
+    margin: -5px -5px 0 0;
+  }
+}
+
+
+

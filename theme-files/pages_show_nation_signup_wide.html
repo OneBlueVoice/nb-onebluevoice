@@ -1,0 +1,140 @@
+<div class="row" >
+  <div class="col-md-6">
+    {{ page.nation_signup.content }}
+  </div>
+  
+  <div class="col-md-6">
+    <div class="well">
+      
+      {% form_for nation_signup %}
+      {% error_messages_for nation_signup %}
+      
+      <div class="form-group">
+        <label for="nation_signup_slug">Choose your NationBuilder URL</label>
+        <div class="input-group">
+          
+          <span class="input-group-addon">http://</span>
+          {% text_field "slug", class:"form-control" %}
+          <span class="input-group-addon">.nationbuilder.com</span>  
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="nation_signup_first_name">First Name</label>
+        {% text_field "first_name", class:"form-control" %}
+      </div>
+      
+      <div class="form-group">
+        <label for="nation_signup_last_name">Last Name</label>
+        {% text_field "last_name", class:"form-control" %}
+      </div>
+      
+      <div class="form-group">
+        <label for="nation_signup_email">Email</label>
+        {% email_field "email", class:"form-control" %}
+      </div>
+      
+      <div class="form-group">
+        <label for="nation_signup_phone">Phone</label>
+        {% phone_field "phone", class:"form-control" %}
+      </div>
+      
+      <div class="form-group">
+        <label for="nation_signup_password">Choose a password</label>
+        {% password_field "password", class:"form-control" %}
+      </div>
+      
+      <div class="form-group">
+        <label for="nation_signup_password_confirmation">Confirm password</label>
+        {% password_field "password_confirmation", class:"form-control" %}
+      </div>
+      
+      
+      
+      
+      
+      {% if request.logged_in? and request.current_signup.has_password? %}
+      <p class="help-block">This password is for your personal administrator account on your new nation. It is separate from your nationbuilder.com password.</p>
+      {% endif %}
+      
+      
+      
+      {% unless page.nation_signup.has_plan? %}
+      {% if page.nation_signup.has_edition? == false %}
+      <div class="form-group">
+        <label for="nation_signup_nation_plan_id">Choose your NationBuilder edition</label>
+        <br>
+        {{ page.nation_signup.form_edition_options }}
+      </div>
+      {% endif %}
+      {% else %}
+      
+      <div class="form-group"><label for="nation_signup_nation_plan_id">Choose your plan</label>
+        {{ page.nation_signup.form_plan_dropdown }}
+      </div>
+      
+      {% endunless %}
+      
+      {% if page.nation_signup.ask_for_cc? %}
+      <div class="form-group">
+        <label for="nation_signup_card_number">Credit card number</label>
+        {% text_field "card_number", class:"form-control" %}
+      </div>
+      
+      <div class="form-group">
+        <label for="nation_signup_card_expires_on">Expiration</label>
+        <div class="row">         
+          <div class="col-md-6">
+            <select id="nation_signup_card_expires_on_2i" name="nation_signup[card_expires_on(2i)]" class="form-control">
+              <option value="1">1 - January</option>
+              <option value="2">2 - February</option>
+              <option value="3">3 - March</option>
+              <option value="4">4 - April</option>
+              <option value="5">5 - May</option>
+              <option value="6">6 - June</option>
+              <option value="7">7 - July</option>
+              <option value="8">8 - August</option>
+              <option value="9">9 - September</option>
+              <option value="10">10 - October</option>
+              <option value="11">11 - November</option>
+              <option value="12">12 - December</option>
+            </select>
+            <input id="nation_signup_card_expires_on_3i" name="nation_signup[card_expires_on(3i)]" type="hidden" value="1">
+          </div>
+          <div class="col-md-6">
+            <select id="nation_signup_card_expires_on_1i" name="nation_signup[card_expires_on(1i)]" class="form-control">
+              <option value="2014">2014</option>
+              <option value="2015">2015</option>
+              <option value="2016">2016</option>
+              <option value="2017">2017</option>
+              <option value="2018">2018</option>
+              <option value="2019">2019</option>
+              <option value="2020">2020</option>
+              <option value="2021">2021</option>
+              <option value="2022">2022</option>
+              <option value="2023">2023</option>
+              <option value="2024">2024</option>
+              <option value="2025">2025</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+      
+      <div class="form-group">
+        <label for="nation_signup_zip">Billing zip code</label>
+        {% text_field "zip", class:"form-control" %}
+      </div>
+      
+      
+      
+      {% endif %}
+      
+      
+      {% submit_tag "Start your nation", class:"btn btn-primary btn-block" %}
+      
+      
+      {% endform_for %}
+    </div>  
+  </div>
+</div>

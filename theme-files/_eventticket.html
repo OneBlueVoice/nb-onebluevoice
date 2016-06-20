@@ -1,0 +1,16 @@
+{% form_for order %}
+
+<h4>Purchase tickets:</h4>
+
+{% for ticket_level in page.event.ticket_levels %}
+
+<div class="form-group">
+  {% if ticket_level.description.size > 0 %}<label for="event_rsvp_first_name">{{ ticket_level.description }}</label>{% endif %}
+  {{ ticket_level.form_quantity |replace:"quantity","form-control"}}
+  
+</div>
+
+{% endfor %}
+
+{% submit_tag "Purchase tickets", class:"btn btn-success" %}			
+{% endform_for %}

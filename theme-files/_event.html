@@ -1,0 +1,42 @@
+<h4><a href="{{ event.url }}">{{ event.name }}</a></h4>
+<p><strong>When:</strong>
+  {{ event.event.local_start_at | date: '%A, %B %d, %Y at %I:%M %p' }}
+  {% if page.event.is_multi_day? %}
+  through {{ page.event.local_end_at | event_date }}
+  {% endif %}</p>
+
+
+{% if event.event.is_ticket_required? %}
+<p><strong>How much: </strong>{{ event.event.ticket_price_with_currency }}</p>
+{% elsif event.event.is_user_ticket_required? %}
+<p><strong>How much: </strong>{{ event.event.user_ticket_price_with_currency }}</p>
+{% endif %}
+
+{% if event.event.show_guests? and event.event.rsvps_count > 0 %}
+<p><strong>RSVPs: </strong>{{ event.event.rsvps_count }}<p>
+{% endif %}
+
+{% if event.event.has_venue? %}
+
+{% if event.event.has_venue_address? %}
+<p><strong>Where: </strong><a href="{{ event.event.venue_address.google_map_link }}">{{ event.event.venue_name }}</a>
+  in 
+  {{ event.event.venue_address.location }}</p>
+{% else %}
+<p><strong>Where: </strong>{{ event.event.venue_name }}</p>
+{% endif %}
+
+{% endif %}
+<p><strong>Google Calendar: </strong> <a href="https://www.google.com/calendar/render?action=TEMPLATE&text={{ event.name }}&dates={% assign sd = event.event.local_start_at | date: '%I%M' %}{% assign sd2 = sd |plus:1600%}{{ event.event.local_start_at | date: '%Y%m%dT' }}{{ sd2 }}00Z/{{ event.event.local_end_at | date: '%Y%m%dT' }}{% assign ed = event.event.local_end_at | date: '%I%M' %}{% assign ed2 = ed | plus:1600 %}{{ ed2 }}00Z&details={{ event.event.content | strip_html }}<br>{{ event.url }}&location={{ event.event.venue_address.address1 }}+{{ event.event.venue_address.address2 }}+{{ event.event.venue_address.city }}+{{ event.event.venue_address.state }}+{{ event.event.venue_address.zip }}&sf=true&output=xml">Add this event to your Google Calendar</a></p>
+
+{% if event.event.content.size > 0 %}
+<p><strong>Details: </strong> 
+  {{ event.event.content | strip_html |  truncate_words: 200}}</p>
+
+{% endif %}
+
+{% if event.event.is_maximum_capacity? %}
+This event is sold out.
+{% elsif event.event.is_past? == false and event.event.accept_rsvps? %} 
+<a href="{{ event.url }}" class="btn btn-success">Click here to RSVP</a>
+{% endif %}

@@ -1,0 +1,32 @@
+{% form_for flag %}
+
+  <div class="form_wrap">
+	<div class="form padtop">
+
+		<div class="form_errors">{% error_messages_for flag %}</div>
+
+		{% hidden_field_tag "flag[comment_id]", comment.id %}
+		{% hidden_field_tag "flag[page_id]", page.id %}
+
+    {% if site.has_rule_page? %}
+      <p><label for="flag_rule_id">Which rule was violated?</label><br>
+      {% collection_select "rule_id", site.rule_page.rule.rules_collection, class:"select" %}</p>
+    {% endif %}
+
+		<p><label for="flag_content">Explanation (optional)</label><br>{% text_area "content", class:"textarea autogrow" %}</p>
+
+		<div class="padtop">
+			{% submit_tag "Flag this comment", class:"submit-button" %}
+			<div class="form_submit"></div>
+		</div>
+
+		<p>Flagging comment from {{ comment.signup.published_name_linked }}</label></p>
+
+    <div class="text-content">
+    {{ comment.content_html }}
+    </div>
+
+	</div>
+	</div>
+
+{% endform_for %}

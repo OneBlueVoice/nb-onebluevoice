@@ -1,0 +1,35 @@
+$headerFont: 'Roboto-Bold', 'Helvetica', Arial, sans-serif;
+$accentFont: 'Bebas Neue', 'Helvetica', Arial, sans-serif;
+$bodyFont: 'Roboto', 'Helvetica', Arial, sans-serif;
+
+$primary: #2E93FB;
+$brand-primary: $primary;
+
+$secondary: #FA544E;
+$brand-success: $secondary;
+
+$panel-border-radius: 3px;
+
+$facebook-color: #3B5999;
+$twitter-color: #26c4f1;
+$instagram-color: #41719E;
+
+
+$text-color: #333;
+
+// button overrides
+// old: @include button-size($padding-base-vertical, $padding-base-horizontal, $font-size-base, $line-height-base, $border-radius-base);
+// new: @include button-size($padding-button-vertical, $padding-button-horizontal, $font-size-button, $line-height-button, $border-radius-base);
+
+$padding-button-vertical: 0;
+$padding-button-horizontal: 8px;
+$btn-height: 36px;
+
+$font-size-h1:            2.6em; // ~36px
+$font-size-h2:            2.15em; // ~30px
+$font-size-h3:            1.7em; // ~24px
+$font-size-h4:            1.25em; // ~18px
+$font-size-h5:            1em;
+$font-size-h6:            0.85em; // ~12px
+
+

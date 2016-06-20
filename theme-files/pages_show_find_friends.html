@@ -1,0 +1,38 @@
+<div class="panel content-panel">
+
+  {% if request.logged_in? %}
+    {% if request.current_signup.has_facebook_authorization? %}
+
+      <h2 class="subhead">You've connected your Facebook account</h2>
+      {% include "find_friends_facebook" %}
+
+    {% else %}
+
+      <h2 class="subhead">You haven't connected your Facebook account</h2>
+      <a href="{{ request.facebook_connect_url }}">Click here to connect your Facebook account and find your friends.</a>
+
+    {% endif %}
+    <hr>
+    {% if request.current_signup.has_twitter_authorization? %}
+      <h2 class="subhead">You've connected your Twitter account</h2>
+      {% include "find_friends_twitter" %}
+    {% else %}
+
+      <h2 class="subhead">You haven't connected your Twitter account</h2>
+      <a href="{{ request.twitter_connect_url }}">Click here to connect your Twitter account and find your friends.</a>
+
+    {% endif %}
+
+  {% else %}
+
+    <h2 class="subhead">You haven't connected your Facebook account</h2>
+    <a href="{{ request.facebook_connect_url }}">Click here to connect your Facebook account and find your friends.</a>
+
+    <hr>
+
+    <h2 class="subhead">You haven't connected your Twitter account</h2>
+    <a href="{{ request.twitter_connect_url }}">Click here to connect your Twitter account and find your friends.</a>
+
+  {% endif %}
+
+</div>

@@ -1,0 +1,92 @@
+    {{ page.recruiting.content }}
+    {% if request.sorta_logged_in? %}
+
+    <h3 class="text-center">Your personal tracking link:</h3>
+    <div class="form-group">
+      <input type="text" id="tracking_link" onclick="this.focus();this.select();" class="form-control" readonly="readonly" value="{{ page.recruiting.featured_page.full_url_with_recruiter }}"/>
+    </div>
+    {% else %}
+    <h3 class="text-center">Your  tracking link:</h3>
+    <div class="form-group">
+      <input type="text" id="tracking_link" onclick="this.focus();this.select();" readonly="readonly" value="{{ page.recruiting.featured_page.full_url }}">
+    </div>
+    <p class="help-block">Sign in with <a href="{{ request.facebook_connect_url }}">Facebook</a>, <a href="{{ request.twitter_connect_url }}">Twitter</a> or <a href="/login">email</a> to get your personal tracking link.</p>
+    {% endif %}
+    <p>Anyone referred through your personal tracking link will be credited to you.</p>
+
+    {% if request.sorta_logged_in? and page.recruiting.show_followers? and request.current_signup.followers_count > 0 %}
+
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Political Capital</th>
+            <th>Supporter</th>
+            <th>Volunteer</th>
+            <th>Donor</th>
+            {% if settings.is_voter? %}
+            <th>Could Vote</th>
+            <th>Will Vote</th>
+            {% endif %}
+          </tr>
+        </thead>
+        {% for follower in request.current_signup.followers %}
+        {% assign signup = follower.follower %}
+        <tr>
+          <td>{{ signup.published_name }}</td>
+          <td>{{ signup.capital_amount_in_cents | divided_by: 100 }}</td>
+          <td><i class="icon icon-checkbox-{% if signup.is_supporter? == true %}checked2{% else %}unchecked3{% endif %}"></i></td>
+          <td><i class="icon icon-checkbox-{% if signup.is_volunteer == true %}checked2{% else %}unchecked3{% endif %}"></i></td>
+          <td><i class="icon icon-checkbox-{% if signup.has_donated == true %}checked2{% else %}unchecked3{% endif %}"></i></td>
+          {% if settings.is_voter? %}
+          <td><i class="icon icon-checkbox-{% if signup.could_vote_pretty == "YES" %}checked2{% else %}unchecked3{% endif %}"></i></td>
+          <td><i class="icon icon-checkbox-{% if signup.will_vote_pretty == "YES" %}checked2{% else %}unchecked3{% endif %}"></i></td>
+          {% endif %}
+        </tr>
+
+        {% endfor %}
+          <tr>
+            <td>Total</td>
+            <td>
+              <td>{{ request.current_signup.followers_supporters_count }} supporters</td>
+            <td>{{ request.current_signup.followers_volunteers_count }} volunteers</td>
+            <td>{{ request.current_signup.followers_donors_count }} donors</td>
+
+
+            {% if settings.is_voter? %}
+            <td>{{ request.current_signup.followers_possible_voters_count }} could vote</td>
+
+            <td>{{ request.current_signup.followers_voters_count }} will vote</td>
+            {% endif %}
+          </tr>
+      </table>
+    </div>
+    <div class="text-center">
+      <ul class="pagination">
+        {% assign a = request.current_signup.followers | paginate, , '&laquo;', '&raquo;'  %}
+        {% assign b = a  | replace:'<a','<li><a' | replace:'span','li' | replace:'class="current">','class="disabled"><a href="#">'%}
+        {{ b | replace:'<div>','' | replace:'</div>','' | replace:'&nbsp;&nbsp;','' }}
+        {% endif %}
+      </ul>
+    </div>
+
+        {% if request.sorta_logged_in? and page.show_stream? %}
+
+        {% if request.current_signup.recruiting_activities.size > 0 %}
+        <h3>You will be able to see who you've recruited below.</h3>
+        {% endif %}
+        {% for activity in request.current_signup.recruiting_activities %}
+        {{ activity.show_page_view }}
+        {% endfor %}
+        <div class="text-center">
+          <ul class="pagination">
+            {% assign x = request.current_signup.recruiting_activities | paginate, , '&laquo;', '&raquo;'  %}
+            {% assign y = x  | replace:'<a','<li><a' | replace:'span','li' | replace:'class="current">','class="disabled"><a href="#">'%}
+            {{ y | replace:'<div>','' | replace:'</div>','' | replace:'&nbsp;&nbsp;','' }}
+          </ul>
+        </div>
+        {% elsif page.show_stream? %}
+        <p>When you sign in, you will be able to see who you've recruited here.</p>
+
+        {% endif %}

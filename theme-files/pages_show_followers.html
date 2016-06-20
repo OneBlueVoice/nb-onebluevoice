@@ -1,0 +1,18 @@
+<div class="panel content-panel">
+    <div class="alert alert-primary">You have <b>{{ request.current_signup.followers_count }}</b> followers.</div>
+    <div class="row">
+      {% for follower in request.current_signup.followers %}
+      {% assign signup = follower.follower %}
+      <div class="col-md-6">
+        {% include "signup_show" %}
+        <br>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="text-center">
+    <ul class="pagination">{% assign x = request.current_signup.followers | paginate, , '&laquo;', '&raquo;'  %}
+      {% assign y = x  | replace:'<a','<li><a' | replace:'span','li' | replace:'class="current">','class="disabled"><a href="#">'%}
+      {{ y | replace:'<div>','' | replace:'</div>','' | replace:'&nbsp;&nbsp;','' }}
+      </ul>
+   </div>
+</div>

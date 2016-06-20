@@ -1,0 +1,16 @@
+<div class="panel content-panel">
+  {% if request.logged_in? %}
+    <ul class="list-group">
+    {% for activity in page.activity_stream.activities_following %}
+
+
+    <li class="list-group-item">{{ activity.show }}</li>
+    {% endfor %}
+
+    {{ page.activity_stream.activities_following | paginate }}
+    </ul>
+  {% else %}
+      <p>You need to be <a href="/login">logged in</a> to see your activity stream.</p>
+  {% endif %}
+
+</div>

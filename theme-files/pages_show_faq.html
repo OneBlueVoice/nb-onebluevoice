@@ -1,0 +1,41 @@
+<div class="panel content-panel">
+  {% include "headline" %}
+  {{ page.faq.content }}
+
+  <div class="row">
+    <div class="col-sm-4">
+      <ul class="nav nav-pills nav-stacked" id="faq-menu">
+        {% for child in page.children %}
+        {% if child.type_name == 'Question' %}
+        <li><a data-target="#faq-{{child.id}}">{{ child.headline }}</a></li>
+        {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="col-sm-8">
+
+      <div id="faq-panel">
+        <div id="faq-intro" class="faq-item">
+          Click on a topic to begin.
+        </div>
+
+        {% for child in page.children %}{% if child.type_name == 'Question' %}
+        <div id="faq-{{child.id}}" class="faq-item">
+          <span class="visible-xs">
+            <h4><strong>{{ child.headline }}</strong></h4>
+          </span>
+          {% if child.question.content.size > 0 %}
+          <h4>{{ child.question.content }}</h4>
+          {% endif %}
+          {% if child.question.answer.size > 0 %}
+          {{ child.question.answer }}
+          {% endif %}
+        </div>
+        {% endif %}{% endfor %}
+
+      </div>
+    </div>
+
+  </div>
+
+</div>

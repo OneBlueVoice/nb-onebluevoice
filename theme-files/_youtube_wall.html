@@ -1,0 +1,49 @@
+<div class="panel content-panel">
+  {{ page.basic.content }}
+  <div class="yt_holder">
+    <div id="ytvideo" class="video-container"></div>
+    <div class="demo1"  id="dvContent">
+      <ul class="list-unstyled row"></ul>
+    </div>
+
+  </div>
+</div>
+
+
+<script>
+  var apiKey = "AIzaSyC0TewVBR3djsb_-u49dM5K34RCTS_SJ74";
+  function handleClientLoad() {
+    // Step 2: Reference the API key
+    gapi.client.setApiKey(apiKey);
+
+    gapi.client.load("youtube", "v3").then(showPlaylist);
+  }
+
+  function showPlaylist() {
+    gapi.client.youtube.playlistItems.list({
+      playlistId: "PL5075BB69F757047E",
+      part:'snippet',
+      maxResults: 4
+    }).execute(function(response) {
+      var playlistItems = response.result.items;
+      if(playlistItems) {
+        $.each(playlistItems, function(index, item) {
+          console.log(item.snippet);
+          var sTitle = item.snippet.title;
+          var sLink = item.snippet.resourceId.videoId;
+
+          // var sLink = $(this).find('link[rel="alternate"]').attr("href");
+          $('<li style="width:50%;float:left;padding:15px;"></li>')
+            .html('<a class="videotitle" href="http://youtu.be/' + sLink + '"><h3 class="text-center">' + sTitle + '</h3></a>')
+            .appendTo("#dvContent ul");
+        });
+      };
+      $("#dvContent").ytplaylist({ playerWidth:800,playerHeight:600,addThumbs:true,autoPlay: 1, holderId: 'ytvideo'});
+    });
+
+  };
+</script>
+<script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
+<script src="jquery.youtubeplaylist.js"></script>
+
+

@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-md-12">
+    <h1>{{ suggestion_page.page.headline }}</h1>
+    <p></p>
+    
+    {% form_for suggestion_page %}
+    
+    {% error_messages_for suggestion_page %}
+    <div class="form-group"><label for="content">You can edit your suggestion below:</label>
+      {% text_area "content_editable", class:"form-control textarea-tinymce" %}
+    </div>
+    
+    {% submit_tag "Save and update my suggestion", class:"btn btn-default" %}
+    
+    
+    {% endform_for %}
+  </div>
+</div>

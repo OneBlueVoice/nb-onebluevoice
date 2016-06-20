@@ -1,0 +1,23 @@
+<div class="container main-content">
+
+  <div class="row">
+    <div class="col-md-8">
+      <h1 class="page-name">{{ page.name }}</h1>
+    </div>
+  </div>
+
+  {{ content_for_notifications }}
+  <div class="row {{ request.template }}">
+    <div class="col-md-8 col-lg-8">
+      {% include "features" %}
+      {% yield %}
+      {% if page.show_stream? %}{% include "like_page" %}{% endif %}
+      {% if page.is_commentable? %}{% include "comments" %}{% endif %}
+    </div>
+    <div class="col-md-4 col-lg-4">
+      {% include "sidebar" %}
+    </div>
+    <div class="clearfix"></div>
+  </div>
+
+</div>

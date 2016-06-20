@@ -1,0 +1,62 @@
+{% if page.survey.is_next_question? %}
+
+{% form_for survey_question_response %}
+{% error_messages_for survey_question_response %}
+
+{% hidden_field_tag 'survey_question_response[survey_question_id]', page.survey.next_question.id %}
+
+<p class="lead">{{ page.survey.next_question.content }}</p>
+
+{% if page.survey.next_question.intro.size > 0 %}
+
+<p>
+  {{ page.survey.next_question.intro | new_line_to_br }}
+</p>
+
+{% endif %}
+
+
+{% if page.survey.next_question.is_multiple_choice? %}
+{% for possible_response in page.survey.next_question.possible_responses %}
+<div class="form-group"><div class="radio">
+  <label for="survey-choice-{{possible_response.id}}">
+    {{ possible_response.radio_button }} {{ possible_response.name }}
+  </label>
+  </div>
+</div>
+{% endfor %}
+{% elsif page.survey.next_question.is_yes_no? %}
+<div class="form-group"><div class="radio">
+  <label for="radio-button-yes">
+    {{ page.survey.next_question.yes_radio_button }} Yes
+  </label>
+  </div>
+</div>
+<div class="form-group"><div class="radio">
+  <label for="radio-button-no">
+    {{ page.survey.next_question.no_radio_button }} No
+  </label>
+  </div>
+</div>
+
+{% elsif page.survey.next_question.is_text? %}
+<div class="form-group">
+  <label for="survey_response_submitted_address"></label>
+  {% text_area "content", class:"form-control" %}
+</div>
+{% endif %}
+
+
+<div class="form-group">
+  {% submit_tag "Next question", class:"btn btn-block btn-primary" %}
+  
+</div>
+
+{% endform_for %}
+
+{% else %}
+
+<p>Thanks for answering all our questions!</p>
+
+
+{% endif %}

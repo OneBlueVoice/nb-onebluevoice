@@ -1,0 +1,29 @@
+.blog-post {
+  position: relative;
+  .subhead {
+    margin-top: 0;
+    a {
+      color: inherit;
+      &:hover {
+        text-decoration: none;
+        color: $brand-primary;
+      }
+    }
+  }
+  .card-footer a {
+    float: right;
+  }
+
+}
+
+.blog-post.card-panel .card-content {
+  padding: 30px;
+}
+.blog-post.card-panel.with-image .card-content {
+  padding: 15px 30px;
+}
+
+.blog-author {
+  margin-bottom:3%;
+  color: $gray;
+}

@@ -1,0 +1,16 @@
+{% if request.logged_in? %}
+{% else %}
+{% form_for signup %}
+{% error_messages_for signup %}
+    <div class="input-group form-group">
+      {% email_field "email", class:"form-control" placeholder="Email Address" %}
+      <span class="input-group-btn">
+        {% submit_tag "Sign Up!", class:"btn btn-primary" %}        
+      </span>
+    </div>
+    <div class="form-submit"></div>
+
+{% endform_for %}
+
+
+{% endif %}

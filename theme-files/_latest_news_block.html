@@ -1,0 +1,37 @@
+
+<section class="latest-news">
+  <div class="container">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+
+        <h2 class="text-white">Latest Updates <a href="{{page.url}}" class="btn btn-white hidden-xs">See All News</a></h2>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="latest-news-btn-jump">
+        <a href="{{page.url}}" class="btn btn-flat visible-xs">See All News <i class="icon icon-arrow-right2"></i></a>
+      </div>
+
+      <div class="panel-body">
+        {% for post in page.blog.most_recent_blog_posts | limit: 3 %}
+        <article class="row">
+          <div class="blog-excerpt match col-sm-8">
+            <h3 class="subhead"><a href="{{post.url}}">{{ post.name }}</a></h3>
+            <p>{{ post.blog_post.content }}</p>
+
+            <a href="{{ post.url }}" class="btn btn-flat btn-secondary">Read More</a>
+          </div>
+
+          <a href="{{post.url}}" class="hidden-xs">
+            <div class="blog-image match col-sm-4" style="background: url('{{ post.meta_image_url }}); background-size: cover; background-position: center;">
+            </div>
+          </a>
+
+        </article>
+        <hr>
+
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
